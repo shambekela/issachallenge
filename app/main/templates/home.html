@@ -3,15 +3,46 @@
 {% block title %} {{ super() }}{% endblock title %}
 
 {% block header %}
-{{ super() }}
+	{{ super() }}
 {% endblock header %}
 
 {% block main %}
-{{ super() }}
+	{{ super() }}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 offset-md-3 col-offset-md-3">	
+				<div class="mb-5 today-challenge-header">
+					<h5 class="issa-header">Today's challenge</h5>	
+				</div>
+				<div class="card p-3 animated zoomIn delay-0.5s">
+				  <div class="card-body">
+				    <span class="">Drinking eight glasses of water today.</span>
+				  </div>
+				  <div class="card-body p-0 pl-4">
+				    <span class="p-2">
+				    	<a href="#" class=" card-link"><i class="fas fa-check"></i> Done</a>
+				    </span>
+				    <span class="p-2">
+				    	<a href="#" class="text-danger card-link"><i class="fas fa-times"></i> Nah not today.</a>
+				    </span>
+				  </div>
+				</div>
+
+				<div class="mt-5">	
+					<div class="quote-container">
+						<blockquote class="blockquote mb-0">
+					      <p>There is no challenge more challenging than the challenge to improve yourself.</p>
+					      <span class="blockquote-footer"><cite title="Source Title">Anonymous</cite></span		>
+					    </blockquote>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock main %}
 
 {% block footer %}
-	{{ super() }}
+	{{ super() }}	
 {% endblock footer %}
 
 {% block scripts %}

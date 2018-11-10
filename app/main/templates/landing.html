@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} {{ super() }} {% endblock title %}
+
+{% block header %}
+	<div class="container">
+    	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3">
+	    	<div class="container"	>
+		      <div class="row">
+		      	<div class="col-auto align-content-center">
+		      		<div class="form-inline">
+			      		<img style="width: 35px;" src="https://lukaszadam.com/wp-content/themes/lukaszadam/img/warrior.png"><h4 class="my-0 ml-2 mr-md-auto font-weight-normal"><a href="{{ url_for('main.home')}}" class="text-dark issa-header">Issa challenge</a></h4>
+			      </div>	
+		      	</div>
+		      	<div class="col-auto align-items-center ml-md-auto d-md-flex">
+			      <div>	
+			      	<nav class="my-2 my-md-0 mr-md-3 m-sm-auto text-md-right">
+				        <a class="p-2 text-dark" href="#">How it works ?</a>
+				        <a class="p-2 text-dark" href="#">Login</a>
+				        <a class="p-2 btn-sm btn btn-primary" href="#">Sign up</a>
+			        </nav>
+			      </div>
+			    </div>
+		      </div>
+		    </div>
+	    </div>			  	  
+    </div>
+{% endblock header %}
+
+{% block main %}
+	<div class="container m-auto">
+		<div class="row">
+			<div class="">
+				<div class="jumbotron p-2">
+				  <div class="text-center">
+				  	<h1 class="display-4">Challenges lead to growth.</h1>
+				  </div>
+				  <div class="container m-auto">
+					  <div class="row">
+					  	<div class="col-lg-8 col-md-8 offset-lg-2 offset-md-2">
+					  		<p class="p-3 lead">Issa-challenge is where we give you a new challenge daily that will help you grow out of your comfort zone and smash limiting beliefs like a true warrior.</p>
+							<hr class="m-4">
+							<p class="text-center small">“Do one thing every day that scares you.” — Eleanor Roosevelt</p>
+							<div class="text-center">
+								<a class="btn lets-button btn-primary btn-lg delay-0.3s" href="#" role="button">Lets do this.</a>
+							</div>
+					  	</div>
+					  </div>
+				  </div>
+				</div>	
+			</div>	
+		</div>
+	</div>
+{% endblock main %}
+
+{% block footer %}
+	{{ super() }}
+{% endblock footer %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var animationEnd = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+			var animationName = 'animated tada'
+			var element = 'a.lets-button' 
+
+			setInterval(function(args) {
+				$(element).addClass(animationName).one(animationEnd, function(event) {
+					$(element).removeClass(animationName)
+				});
+			}, 5000)
+		});
+	</script>
+{% endblock scripts %}

@@ -1,0 +1,47 @@
+/**
+	customize body
+**/
+* {
+	font-family: 'Nunito', sans-serif;
+}
+
+body, div.jumbotron {
+	background-color: #f5f7fa!important;
+}
+
+body .issa-header {
+	font-family: 'Rubik', sans-serif;
+}
+div.app {
+	max-width: 1030px!important;
+}
+
+/**
+	base page:
+**/
+
+body a:hover {
+	text-decoration: none!important;
+}
+
+img.user-avatar {
+	max-height: 1.75rem;
+	border-radius: 50%; 
+	cursor:pointer;
+	border: 1px solid black;
+}
+
+/** profile page **/
+img.useravatar {
+	max-height: 6.75rem;
+	border-radius: 50%;
+	border: 2px solid black;
+}
+
+/**
+	footer customization
+**/
+
+footer .fa-heart{
+	color: crimson;
+}

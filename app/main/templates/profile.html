@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} {{ super() }}{% endblock title %}
+
+{% block header %}
+	{{ super() }}
+{% endblock header %}
+
+{% block main %}
+	{{ super() }}
+	<div class="container ">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-6 col-lg-6">
+				<h4 >My profile</h4>
+				<div class="container">
+					<div class="row">
+						<div class="col-auto">
+							<p>	<img src="https://lh6.googleusercontent.com/-pEn4EZ-h7js/AAAAAAAAAAI/AAAAAAAAAIU/rhxH_P4b4Nw/photo.jpg" alt="User Avatar" class="useravatar"></p>
+						</div>
+						<div class="col-auto mt-4">
+							<p>Joined 2 months ago</p>
+							<p>Completed 50 challenges <span><a href="{{ url_for('main.dashboard') }}" class="small text-info"></a></span></p>
+						</div>
+					</div>
+				</div>
+				<table class="table table-borderless">
+				  <tbody>
+				    <tr>
+				      <th>Name</th>
+				      <td><input type="text" disabled value="toivo1996" class="form-control"></td>
+				    </tr>
+				    <tr>
+				      <th>Email</th>
+				      <td><input type="email" disabled value="toivo1996@gmail.com" class="form-control"></td>
+				    </tr>
+				    <tr>
+				      <th>Date joined</th>
+				      <td><input type="text" disabled value="Mon, 19-Aug-2018" class="form-control"></td>
+				    </tr>
+				    <tr>
+				    	<td colspan="2">
+				    		<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+							  <label class="form-check-label" for="defaultCheck1">
+							    Receive new challenges via email.
+							  </label>
+							</div>
+				    	</td>
+				    </tr>
+				   </tbody>
+				</table>
+				
+				<div class="container">
+					<p><a href="#"><i class="fas fa-sign-out-alt"></i> logout</a></p>
+					<p><a href="#" class="text-danger"><i class="fas fa-trash"></i> delete account...</a></p>	
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock main %}
+
+{% block footer %}
+	{{ super() }}	
+{% endblock footer %}
+
+{% block scripts %}
+	{{ super() }}
+{% endblock scripts %}
