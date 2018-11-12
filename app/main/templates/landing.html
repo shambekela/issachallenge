@@ -9,15 +9,15 @@
 		      <div class="row">
 		      	<div class="col-auto align-content-center">
 		      		<div class="form-inline">
-			      		<img style="width: 35px;" src="https://lukaszadam.com/wp-content/themes/lukaszadam/img/warrior.png"><h4 class="my-0 ml-2 mr-md-auto font-weight-normal"><a href="{{ url_for('main.home')}}" class="text-dark issa-header">Issa challenge</a></h4>
+			      		<img style="width: 35px;" src="{{ url_for('main.static', filename='assets/warrior.png') }}"><h4 class="my-0 ml-2 mr-md-auto font-weight-normal"><a href="{{ url_for('main.home')}}" class="text-dark issa-header">Issa challenge</a></h4>
 			      </div>	
 		      	</div>
 		      	<div class="col-auto align-items-center ml-md-auto d-md-flex">
 			      <div>	
 			      	<nav class="my-2 my-md-0 mr-md-3 m-sm-auto text-md-right">
 				        <a class="p-2 text-dark" href="#">How it works ?</a>
-				        <a class="p-2 text-dark" href="#">Login</a>
-				        <a class="p-2 btn-sm btn btn-primary" href="#">Sign up</a>
+				        <a data-toggle="modal" data-target="#accountModal" class="p-2 text-dark" href="#">Login</a>
+				        <a data-toggle="modal" data-target="#accountModal" class="p-2 btn-sm btn btn-primary" href="#">Sign up</a>
 			        </nav>
 			      </div>
 			    </div>
@@ -33,7 +33,7 @@
 			<div class="">
 				<div class="jumbotron p-2">
 				  <div class="text-center">
-				  	<h1 class="display-4">Challenges lead to growth.</h1>
+				  	<h1 class="display-4 issa-header animated pulse delay-0.3s">Challenges lead to growth.</h1>
 				  </div>
 				  <div class="container m-auto">
 					  <div class="row">
@@ -42,7 +42,7 @@
 							<hr class="m-4">
 							<p class="text-center small">“Do one thing every day that scares you.” — Eleanor Roosevelt</p>
 							<div class="text-center">
-								<a class="btn lets-button btn-primary btn-lg delay-0.3s" href="#" role="button">Lets do this.</a>
+								<a data-toggle="modal" data-target="#accountModal" class="btn lets-button btn-primary btn-lg delay-0.3s" href="#" role="button">Lets do this.</a>
 							</div>
 					  	</div>
 					  </div>
@@ -50,6 +50,30 @@
 				</div>	
 			</div>	
 		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="text-center">
+	        	<h3>Lets do this 🔥</h3>
+	        	<a class="btn btn-outline-primary" href="#">
+	        	<img src="{{ url_for('main.static', filename='assets/google.svg') }}"> Continue with Google
+	        </a>
+	        </div>
+	      </div>
+	      <div class="modal-body text-center">
+	        <p>a life without challenges is boring.</p>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 {% endblock main %}
 
