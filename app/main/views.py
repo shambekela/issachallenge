@@ -12,16 +12,19 @@ def show_users(var):
 	
 @main.route('/')
 def landing():
-	sp = SparkPost('fa2334fcfd642dd97c4af50e322182d906913fbf')
+	sparkpostkey = current_app.config['SPARKPOST_KEY']
+	sparkpostemail = current_app.config['SPARKPOST_EMAIL']
+	'''
+	sp = SparkPost(sparkpostkey)
 	response = sp.transmissions.send(
 	recipients=['toivo1996@gmail.com'],
 	html='<p>Welcome to issa challenge</p>',
-	from_email='daily@issachallenge.fun',
+	from_email=sparkpostemail,
 	subject='Welcome to Issa challenge')
 
 	print(response)
 	sys.stdout.flush()
-	
+	'''
 	return render_template('landing.html')
 
 @main.route('/test')

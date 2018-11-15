@@ -12,6 +12,8 @@ class Auth:
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'afafd6a5f65a6f5a65df6a5f6af65daf84df23sfa6d5fa'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY')
+	SPARKPOST_EMAIL = os.environ.get('SPARKPOST_EMAIL')
 
 	SCHEDULER_EXECUTORS = {
 		'default': {'type': 'threadpool', 'max_workers': 20}
