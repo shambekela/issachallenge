@@ -1,6 +1,6 @@
 from . import main
 from app import scheduler
-from flask import render_template
+from flask import render_template, current_app
 import os
 from sparkpost import SparkPost
 import sys
@@ -14,6 +14,7 @@ def show_users(var):
 def landing():
 	sparkpostkey = current_app.config['SPARKPOST_KEY']
 	sparkpostemail = current_app.config['SPARKPOST_EMAIL']
+
 	'''
 	sp = SparkPost(sparkpostkey)
 	response = sp.transmissions.send(
