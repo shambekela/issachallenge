@@ -2,6 +2,7 @@ from . import main
 from app import scheduler
 from flask import render_template
 import os
+from sparkpost import SparkPost
 
 def show_users(var):
 	app = scheduler.app
@@ -10,6 +11,15 @@ def show_users(var):
 	
 @main.route('/')
 def landing():
+	sp = SparkPost('fa2334fcfd642dd97c4af50e322182d906913fbf')
+	response = sp.transmissions.send(
+	recipients=['toivo1996@gmail.com'],
+	html='<p>Welcome to issa challenge</p>',
+	from_email='no-reply@issachallenge.fun',
+	subject='Hello from python-sparkpost')
+
+	print(response)
+	
 	return render_template('landing.html')
 
 @main.route('/test')
