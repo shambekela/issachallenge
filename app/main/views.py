@@ -19,7 +19,7 @@ def landing():
 	from_email='daily@issachallenge.fun',
 	subject='Welcome to Issa challenge')
 
-	print response
+	print(response)
 	sys.stdout.flush()
 	
 	return render_template('landing.html')
