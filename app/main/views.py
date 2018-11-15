@@ -5,6 +5,7 @@ import os
 from sparkpost import SparkPost
 import sys
 
+@scheduler.scheduled_job('interval', seconds=2)
 def show_users(var):
 	app = scheduler.app
 	with app.app_context():
