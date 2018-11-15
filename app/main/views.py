@@ -9,6 +9,7 @@ def show_users(var):
 	app = scheduler.app
 	with app.app_context():
 		print('running user' + str(var))
+		sys.stdout.flush()
 	
 @main.route('/')
 def landing():
