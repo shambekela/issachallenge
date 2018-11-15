@@ -15,8 +15,8 @@ def landing():
 	response = sp.transmissions.send(
 	recipients=['toivo1996@gmail.com'],
 	html='<p>Welcome to issa challenge</p>',
-	from_email='no-reply@issachallenge.fun',
-	subject='Hello from python-sparkpost')
+	from_email='daily@issachallenge.fun',
+	subject='Welcome to Issa challenge')
 
 	print(response)
 	
