@@ -3,6 +3,7 @@ from app import scheduler
 from flask import render_template
 import os
 from sparkpost import SparkPost
+import sys
 
 def show_users(var):
 	app = scheduler.app
@@ -18,7 +19,8 @@ def landing():
 	from_email='daily@issachallenge.fun',
 	subject='Welcome to Issa challenge')
 
-	print(response)
+	print response
+	sys.stdout.flush()
 	
 	return render_template('landing.html')
 
