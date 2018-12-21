@@ -11,7 +11,7 @@ import sys, time, uuid, datetime, json
 def challenge_done(currentuser):
 
 	# generates new random challenge
-	random_challenge = db.session.query(Challenge.cid).order_by(db.func.rand()).limit(1).first()
+	random_challenge = db.session.query(Challenge.cid).order_by(db.func.random()).limit(1).first()
 	
 	# generates unique id for activity.
 	activityid = (uuid.uuid4().int & (1<<29)-1)
