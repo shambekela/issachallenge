@@ -10,53 +10,71 @@
 	{{ super() }}
 	<div class="container ">
 		<div class="row justify-content-center">
-			<div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-				<h4 >My profile</h4>
+			<div class="col-md-7">
+				<h4 class="issa-header mt-3">My profile</h4>
+				<hr>	
 				<div class="container">
 					<div class="row">
 						<div class="col-auto">
 							<p>	<img src="https://lh6.googleusercontent.com/-pEn4EZ-h7js/AAAAAAAAAAI/AAAAAAAAAIU/rhxH_P4b4Nw/photo.jpg" alt="User Avatar" class="useravatar"></p>
 						</div>
 						<div class="col-auto mt-4">
-							<p>Joined 2 months ago</p>
-							<p>Completed 50 challenges <span><a href="{{ url_for('main.dashboard') }}" class="small text-info"></a></span></p>
+							<p>Joined {{ moment( current_user.dateJoined , local=True).fromNow() }}</p>
+							<p>Completed {{ current_user.challenge_completed() }} challenges <span><a href="{{ url_for('main.dashboard') }}" class="small text-info"></a></span></p>
 						</div>
 					</div>
 				</div>
 				<table class="table table-borderless">
 				  <tbody>
+				  	<!-- personal information section -->
+				  	<tr><td colspan="2" class="profile-section-label">Personal Information</td></tr>
 				    <tr>
-				      <th>Name</th>
-				      <td><input type="text" disabled value="toivo1996" class="form-control"></td>
+				      <td>Name</td>
+				      <td><input type="text" disabled value="{{ current_user.username | title }}" class="form-control"></td>
 				    </tr>
 				    <tr>
-				      <th>Email</th>
-				      <td><input type="email" disabled value="toivo1996@gmail.com" class="form-control"></td>
+				      <td>Email</td>
+				      <td><input type="email" disabled value="{{ current_user.email }}" class="form-control"></td>
 				    </tr>
 				    <tr>
-				      <th>Date joined</th>
-				      <td><input type="text" disabled value="Mon, 19-Aug-2018" class="form-control"></td>
+				      <td>Date joined</td>
+				      <td><input type="text" disabled value="{{ current_user.dateJoined }}" class="form-control"></td>
 				    </tr>
+				    <!-- notification section -->
+				    <tr><td colspan="2" class="profile-section-label">Notification</td></tr>
 				    <tr>
 				    	<td colspan="2">
-				    		<div class="form-check">
-							  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-							  <label class="form-check-label" for="defaultCheck1">
-							    Receive new challenges via email.
-							  </label>
+				    		<div class="alert alert-primary" role="alert">
+					    		<p class="small"><span class="font-weight-bold">NO SPAM!</span> Only when you're inactive for 24 hours (or more), we send you an email notification with a new challenge that you can complete.</p>
+					    		<div class="form-check">
+								  <input class="form-check-input receive-email" type="checkbox" {% if current_user.receiveEmail %} checked {% endif %} value="" id="defaultCheck1">
+								  <label class="form-check-label receive-email-label" for="defaultCheck1">
+								    subscriber to receive challenges via email.
+								  </label>
+								</div>
 							</div>
 				    	</td>
 				    </tr>
 				   </tbody>
 				</table>
 				
-				<div class="container">
-					<p><a href="#"><i class="fas fa-sign-out-alt"></i> logout</a></p>
-					<p><a href="#" class="text-danger"><i class="fas fa-trash"></i> delete account...</a></p>	
+				<div class="container profile-action">
+					<p><a href="#confirmDelete" class="text-danger delete-account" data-toggle="collapse" data-target="#confirmDelete" role="button"><i class="fas fa-trash"></i> delete account...</a></p>
+					<div class="collapse" id="confirmDelete">
+					  <div class="card card-body border-danger">
+					   <div>
+			   				<p>Deleting your account will cancel your subscription and delete everything tied to your account, including habits and activities.</p>
+
+							<p>If you’re absolutely sure you want to delete your account, press delete account button below.</p>
+                            <button class="btn btn-danger btn-sm delete-account-confirm" id="deleteConfirmButton" role="button"> Delete account</button>
+                        </div>
+					  </div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 {% endblock main %}
 
 {% block footer %}

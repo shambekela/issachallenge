@@ -8,36 +8,165 @@
 
 {% block main %}
 	{{ super() }}
+	<!-- main page content -->
 	<div class="container">
-		<div class="row">
-			<div class="col-md-6 offset-md-3 col-sm-8 col-sm-offset-3 col-xs-10 col-xs-offset-1">	
-				<div class="mb-5 today-challenge-header">
-					<h5 class="issa-header">Today's challenge</h5>	
+		<div class="row justify-content-center">
+			<div class="col-md-7">
+				<div class="pt-4 pb-4">
+					<h5 class="issa-page-title font-weight-normal">Current challenge </h5>
 				</div>
-				<div class="card p-md-3 animated zoomIn delay-0.5s">
-				  <div class="card-body">
-				    <span class="">Drinking eight glasses of water today.</span>
-				  </div>
-				  <div class="card-body p-0 pl-4">
-				    <span class="p-2">
-				    	<a href="#" class=" card-link"><i class="fas fa-check"></i> Done</a>
-				    </span>
-				    <span class="p-2">
-				    	<a href="#" class="text-danger card-link"><i class="fas fa-times"></i> Nah not today.</a>
-				    </span>
-				  </div>
-				</div>
-
-				<div class="mt-5">	
-					<div class="quote-container">
-						<blockquote class="blockquote mb-0">
-					      <p>There is no challenge more challenging than the challenge to improve yourself.</p>
-					      <span class="blockquote-footer"><cite title="Source Title">Anonymous</cite></span		>
-					    </blockquote>	
+				<div>
+				{% if activity is not none %}
+				    <div class="d-none challenge-loader text-center">
+						<p class="text-muted h5">Loading a new challenge...</p>
+						<img src="https://loading.io/spinners/typing/lg.-text-entering-comment-loader.gif" style="width: 160px;">
+						<p class="text-muted h5">"Success is a choice."</p>
 					</div>
+				    <div class="card animated fast zoomIn delay-0.5s challenge-card">
+					  <div class="card-body challenge-card-body">
+					    <div class="container">
+					    	<div class="row">
+					    		<div class="col-lg-11">
+							    	<div class=" text-success pb-4">
+								    	<i class="fas fa-list-ul"></i>
+								    	<small class="activity-timestamp">{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }}</small>
+								    </div>
+								    <div>
+								    	<span class="h5 card-text activity-challenge">{{ activity.get_challenge_name() }}</span> <!-- display current user activity -->	
+								    </div>
+							    </div>
+					    	</div>
+					    </div>					    
+					  </div>
+					  <div class="pl-4 card-footer border-0 challenge-card-footer action">
+					    <span class="p-2">
+					    	<a href="#" class="btn text-success btn-sm font-weight-bold activity-action-btn" data-action='done' data-toggle="modal" data-target="#doneModalLong"><i class="fas fa-check"></i> Done</a>
+					    </span>
+					    <span class="p-2">
+					    	<a href="#" class="btn text-danger btn-sm font-weight-bold" data-toggle="modal" data-target="#skipModal">Skip</a>
+					    </span>
+					  </div>
+					</div>
+					<div class="p-sm-4 p-md-4 p-4 mt-5">	
+						<div class="quote-container">
+							{% if quote is not none %}    
+								<div>
+							      <p><i class="fas fa-quote-left fa-2x fa-pull-left"></i>{{ quote.content }} <br><span class="small font-italic text-muted">- {{ quote.author }}</span></p>
+							    </div>
+							{% else %}
+								<div>
+									<p>There is no challenge more challenging than the challenge to improve yourself. <br><span class="small font-italic text-muted">- Anonymous</span></p>
+								</div>	
+						    {% endif %}
+						</div>
+					</div>
+				{% else %}
+					<div class="card challenge-complete">
+					  <div class="card-body challenge-complete-body">
+					  	<h1>Challenge completed!</h1>
+					   	<i class="far fa-star display-3"></i>
+					   	<p class="col-lg-8 m-auto pt-3 quote">You completed your challenge. <br>Press another challenge below or wait for an email with a new challenge.</p>
+					  </div>
+					  <div class="card-body">
+					  	<button class="btn btn-dark activity-action-btn btn-sm" data-action='skip'>Another challenge</button>
+					  </div>
+					</div>
+				{% endif %}
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- done modal -->
+	<div class="modal" id="doneModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	  <div class="modal-dialog 	modal-dialog-centered" role="document">
+	    <div class="modal-content done-modal-content">
+	      <div class="modal-header border-bottom-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body m-auto">
+	        <div class="">
+	        	<div class="text-center text-light" style="font-size: 100px;">
+	        		<h4>+3 points</h4>
+	        		<div class="done-icon">
+	        			
+	        		</div>
+	        		<h5 class="issa-page-title font-weight-normal">Well done! {{ current_user.username | capitalize}}</h5>
+	        	</div>	
+	        </div>
+	      </div>
+	      <div class="modal-footer bg-dark border-top-0">
+	        <a class="btn btn-link font-weight-normal text-light" data-dismiss="modal">Close</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- skip modal -->
+	<div class="modal" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content skip-modal-content">
+	      <div class="modal-header border-bottom-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body p-4">
+	        <div class="">
+	        	<div class="text-center text-light" style="font-size: 100px;">
+	        		<h5 class="issa-header font-weight-bold">Skip this challenge <i class="fas fa-angle-double-right"></i></h5>
+	        	</div>
+	        </div>
+	      </div>
+	      <div class="modal-footer border-top-0 bg-dark">
+	        <a class="text-danger skip-modal-cancel btn font-weight-normal" data-dismiss="modal">cancel</a>
+	        <a class="text-light font-weight-normal btn activity-action-btn skip-modal-skip" data-dismiss="modal" data-action='skip'>skip</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- welcome to issa challenge modal -->
+	<div class="modal" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content welcome-modal">
+	      <div class="modal-header border-bottom-0 bg-dark p-4">
+	        <h5 class="issa-header font-weight-normal text-light">Welcome to Issa challenge </h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="">
+	        	<div>
+	        		<ul class="list-group list-group-flush ">
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="welcome-header" >📍 Challenge yourself</div>
+						  <div class="ml-3 welcome-description small"><div>Complete one or more challenges daily.</div></div>
+					  </li>
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="welcome-header" >📍 Come back!</div>
+						  <div class="ml-3 welcome-description small"><div>Let us know once your done with a challenge.</div></div>
+					  </li>
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="welcome-header" >📍 24 Hour Limit</div>
+						  <div class="ml-3 welcome-description small"><div>If a challenge is not marked as done after 24 hours we give you another one.</div></div>
+					  </li>
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="welcome-header" >📍 Enjoy yourself. Grow</div>
+						  <div class="ml-3 welcome-description small"> <div>These challenges are meant for your growth so take it easy and enjoy yourself.</div></div>
+					  </li>
+					</ul>
+	        	</div>
+	        </div>
+	      </div>
+	      <div class="modal-footer border-top-0">
+	        <button type="button" class="btn btn-dark btn-sm get-started-button" data-dismiss="modal">continue</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 {% endblock main %}
 
@@ -47,4 +176,15 @@
 
 {% block scripts %}
 	{{ super() }}
+
+	<script type="text/javascript">
+		
+		// if user has not seen the get started modal then show it.
+		{% if not current_user.get_started %}
+		    $(window).on('load',function(){
+		        $('#welcomeModal').modal('show');
+		    });
+		{% endif %}
+
+	</script>
 {% endblock scripts %}

@@ -8,20 +8,127 @@
 
 {% block main %}
 	{{ super() }}
-	<div class="container">
+	<div class="container page-wrap">
 		<div class="row justify-content-center">
-			<div class="col-12 col-md-2 col-lg-2">
-				jf;ajf
-			</div>
-			<div class="col-12 col-md-6 col-lg-8">
+			<div class="col-12 col-md-8 col-lg-8">
 				<div class="container">
 					<div class="d-flex">
-						<h4 class="m-0 flex-fill">Dashboard</h4>
+						<h4 class="mt-3 issa-header">Dashboard</h4>
 					</div>
 					<hr>
 					<div>
-						<span class="completed-chall-tab"><a href="#" class="font-weight-bold mr-2 text-dark">Completed |</a></span> 
-						<span class="current-chall-tab"><a href="#" class="text-dark">Current</a></span>
+						<div class="container">
+							<p>Your progress thus far</p>
+							<div class="row mb-2">
+							  <div class="col-md-4 mb-2">
+							    <div class="card stats-box-container">
+							      <div class="card-body text-center">
+							        <h6 class="card-title issa-header">Points</h6>
+							        <p class="card-text h5">{{ current_user.number_of_points() }}</p>
+							      </div>
+							    </div>
+							  </div>
+							  <div class="col-md-4 mb-2">
+							    <div class="card stats-box-container">
+							      <div class="card-body text-center">
+							        <h6 class="card-title issa-header">Done</h6>
+							        <p class="card-text h5"> {{ current_user.challenge_completed() }}</p>
+							      </div>
+							    </div>
+							  </div>
+							  <div class="col-md-4 mb-2">
+							    <div class="card stats-box-container">
+							      <div class="card-body text-center">
+							        <h6 class="card-title issa-header">Inactive</h6>
+							        <p class="card-text h5">{{inactivedays}} <span class="small">days</span></p>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row mt-3">
+							<div class="col-lg-12 m-auto">
+								<div class="container">
+									<div class="container">
+										<nav class="mb-2  d-block">
+										  <div class="nav issa-dashboard-nav nav-pills" id="v-pills-tab" role="tablist">
+										      <a class="nav-link btn-sm text-dark active" id="v-pills-home-tab" data-toggle="pill" href="#visual-complete" role="tab" aria-controls="v-pills-home" aria-selected="true">Progress</a>
+										      <a class="nav-link btn-sm text-dark" id="v-pills-profile-tab" data-toggle="pill" href="#done-activities" role="tab" aria-controls="v-pills-profile" aria-selected="false">Challenges</a>
+										    </div>
+										</nav>
+									</div>
+									<hr>
+									<div class="row">
+										<div class="col">
+											<div class="tab-content" id="nav-tabContent">
+												<!-- daily visual complete view-->
+												<div class="tab-pane fade show active" id="visual-complete" role="tabpanel">
+													<p>Visual overview of your activity since joining</p>
+													{% if activities is not none %}
+														<div class="container mt-1">
+														{% for ddate in dates %}
+															    <div class="flex-container p-2">
+																	<div class="activity-bar-date">
+																		<span class="font-weight-bold small"> 
+																			
+																			{{ moment(ddate).format("MMM Do YYYY") }}
+																			<div class="d-md-block d-sm-block d-block"> {{ moment(ddate).format('dddd') }}</div>
+																		</span>
+																	</div>
+																	<div class="activity-bar-container small">
+																		{% for activity in activities %}
+																			{% if (ddate == activity.act_date) %}
+																			    {% if (activity.chal_status == 2) %}
+																					<div class="activity-bar" data-toggle="tooltip" data-placement="right" title="{{ activity.num_results }} {% if (activity.num_results >= 3) %} 🔥{% endif %}"></div>
+																				{% endif %}	
+																			{% endif %}
+																		{% endfor %}
+																	</div>
+																</div>
+														{% endfor %}
+														</div>
+														
+													{% else %}
+														<div class="no-challenges">
+															<div class="card stats-box-container">
+																<div class="card-body">
+																	<p class=" issa-header h5 text-center">No challenges completed</p>
+																</div>
+															</div>
+														</div>
+													{% endif %}
+												</div>
+
+												<!-- done activities view -->
+												{% set done_activities = current_user.user_done_challenge() %}
+												<div class="tab-pane fade" id="done-activities" role="tabpanel" aria-labelledby="nav-profile-tab">
+													<p>List of completed challenges</p>
+													{% for activity in done_activities %}
+														<div class="card mb-2 stats-box-container">
+															<div class="card-body">
+																<div class="col-lg-11">
+																	<div class="text-success">
+																		<i class="far fa-check-circle"></i>
+																		<small>{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }}</small>
+																	</div>
+
+																	<div>
+																		{{ activity.get_challenge_name() }}
+																	</div>
+																
+																</div>
+															</div>
+														</div>
+													{% endfor %}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>	
+						</div>	
 					</div>
 				</div>
 			</div>
@@ -35,4 +142,7 @@
 
 {% block scripts %}
 	{{ super() }}
+	<script>
+		$('[data-toggle="tooltip"]').tooltip()
+	</script>
 {% endblock scripts %}

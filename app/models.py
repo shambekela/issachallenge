@@ -1,4 +1,4 @@
-from . import db, login_manager
+from . import db, login_manager, scheduler
 from flask_login import UserMixin
 from datetime import datetime
 
@@ -14,6 +14,40 @@ class User(UserMixin, db.Model):
 	numOfLogins = db.Column(db.Integer, default=1)
 	receiveEmail = db.Column(db.Boolean, default=True)
 	users = db.relationship('Activity', backref='user', cascade="all, delete", lazy=False)
+	get_started = db.Column(db.Boolean, default=False)
+
+	# set getstarted modal seen
+	def set_getStarted(self, seen):
+		self.get_started = seen
+
+
+	# get completed activities per user
+	def challenge_completed(self):
+		stats_total = 0
+		activities = db.session.query(Activity.chal_status, db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == self.uuid, Activity.chal_status == 2).group_by(Activity.chal_status).first()
+
+		if activities:
+			stats_total = activities.num_results
+
+		return stats_total
+
+	# get number of points for this user.
+	def number_of_points(self):
+		point_total = 0
+		activities = Activity.query.filter(Activity.user_id == self.uuid, Activity.chal_status == 2).all()
+
+		if activities:
+			for activity in activities:
+				point_total = point_total + activity.point
+
+		return point_total
+
+	# get this users done activities
+	def user_done_challenge(self):
+		activities = db.session.query(Activity).filter(Activity.user_id == self.uuid, Activity.chal_status == 2).order_by(db.desc(Activity.timestamp)).all()
+
+		return activities
+
 
 # stores all challenges.
 class Challenge(db.Model):
@@ -40,13 +74,30 @@ class Activity(db.Model):
 	end_date = db.Column(db.DateTime, nullable=True)
 	current = db.Column(db.Boolean, default=True) # stores if this is the current user challenge.
 	chal_status = db.Column(db.Integer, db.ForeignKey('challenge_status.id', ondelete="CASCADE"), default=0) # status of this challenge done not today etc.
+	point = db.Column(db.Integer, default=0)
 
+	def set_status(self, status):
+		self.chal_status = status
+
+	def set_point(self, point):
+		self.point = point
+
+	def set_current(self, current):
+		self.current = current
+
+	def get_challenge_name(self):
+		return self.challenge.name
 
 class ChallengeStatus(db.Model):
 	__tablename__ = 'challenge_status'
 	id = db.Column(db.Integer, primary_key=True)
 	status = db.Column(db.String(100), unique=True) # 0 - noactiontaken 1- done 3- Not today.
 	activities = db.relationship('Activity', backref='c_status', cascade="all, delete", lazy=False)
+
+class Quote(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	content = db.Column(db.String(250), unique=True)
+	author = db.Column(db.String(250), default='anonymous')
 
 @login_manager.user_loader
 def load_user(user_id):

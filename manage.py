@@ -4,7 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 from app.models import User, Challenge, Tag, Activity, ChallengeStatus
 import os
 
-app = create_app(os.environ.get('FLASK_CONFIG') or 'default')
+app = create_app(os.environ.get('ENVIRONMENT') or 'development')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
@@ -13,6 +13,10 @@ manager.add_command('db', MigrateCommand)
 @manager.shell
 def make_shell_context():
 	return dict(app=app )#, db=db)
+
+if scheduler.state == 1:
+	scheduler.shutdown()
+	scheduler.delete_all_jobs()
 
 scheduler.start()
 

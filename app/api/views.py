@@ -7,6 +7,7 @@ from config import Auth
 from app import db
 from app.models import User
 import json
+import uuid
 
 def get_google_auth(state=None, token=None):
 	if token:
@@ -30,7 +31,7 @@ def login():
 def logout():
 	session.clear()
 	logout_user()
-	return redirect(url_for('main.home'))
+	return redirect(url_for('main.landing'))
 
 @api.route('/gCallback')
 def callback():
@@ -64,10 +65,15 @@ def callback():
 			if user is None:
 				user = User()
 				user.email = email
+				user.uuid = (uuid.uuid4().int & (1<<29)-1)
+			else:
+				# tracks number of logins
+				user.numOfLogins = user.numOfLogins + 1
 
 			user.username = user_data['family_name']
 			user.tokens = json.dumps(token)
-			user.avatar = user_data['picture']
+			user.avatar = user_data['picture'] 
+
 			db.session.add(user)
 			db.session.commit()
 			login_user(user, remember=True)

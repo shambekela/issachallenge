@@ -12,16 +12,39 @@ body, div.jumbotron {
 body .issa-header {
 	font-family: 'Rubik', sans-serif;
 }
-div.app {
-	max-width: 1030px!important;
+
+body .issa-header-bold {
+	font-family: 'Rubik', sans-serif;
+	font-weight: bold;
 }
 
+.modal-backdrop {
+	opacity: 0.9!important;
+}
+
+body main {
+	margin-top: 85px;
+}
+
+body div.issa-challenge-header {
+	box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+	padding: .5rem!important;
+	background-color: #171e39;
+}
+
+.card {
+	border: 0;
+}
 /**
 	base page:
 **/
 
 body a:hover {
 	text-decoration: none!important;
+}
+
+div.container nav > a:hover {
+	color: #999!important;
 }
 
 img.user-avatar {
@@ -35,7 +58,11 @@ img.user-avatar {
 img.useravatar {
 	max-height: 6.75rem;
 	border-radius: 50%;
-	border: 2px solid black;
+	border: 2px solid #171e39;
+}
+
+a.delete-account  {
+	cursor: pointer;
 }
 
 /**
@@ -45,3 +72,80 @@ img.useravatar {
 footer .fa-heart{
 	color: crimson;
 }
+
+/**
+	dashboard
+**/
+.flex-container {
+	display: flex;
+}
+
+div.activity-bar-date {
+    width: 55%;
+    text-align: right;
+}
+
+div.activity-bar-container {
+	margin:  8px 0px 0px 0px;
+	width: 70%;
+}
+
+div.activity-bar-container .activity-bar {
+	height: 50%;
+	background-color: #54b364!important;
+	border-radius: 4px;
+	margin: 0 0 0 7px;
+	width: 40%;
+}
+
+div.stats-box-container {
+	border: 0;
+	box-shadow: 0 3px 6px 0 #36445217;
+}
+
+div.issa-dashboard-nav a.nav-link.active{
+	background-color: inherit;
+	border: 1px solid #999999!important;
+	font-weight: bold;
+}
+/**
+	homepage
+**/
+.modal .welcome-guide-list, .modal .welcome-modal {
+	background-color: #fffcef;
+}
+
+.modal .welcome-guide-list .welcome-header {
+	font-weight: bold;
+}
+
+.container div.challenge-complete {
+	text-align: center;
+	background-color: #f5f7fa!important;
+}
+
+.container div.challenge-complete .challenge-complete-body {
+	opacity: 0.3;
+}
+
+.modal div.done-modal-content , .modal div.skip-modal-content{
+	background-color: #563d7c!important;
+}
+
+div.card.challenge-card {
+	border: 0;
+	box-shadow: 0 3px 6px 0 #36445217;
+}
+
+div.card .challenge-card-body {
+}
+
+
+/**
+	profile
+**/
+td.profile-section-label {
+	font-weight: bold;
+	color: #007bff;
+}
+
