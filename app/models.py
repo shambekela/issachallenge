@@ -54,16 +54,16 @@ class Challenge(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	cid = db.Column(db.BigInteger, unique=True, index=True)
 	name = db.Column(db.String(255), index=True, nullable=False)
-	c_tag = db.Column(db.Integer, db.ForeignKey('tag.id'))
+	#c_tag = db.Column(db.Integer, db.ForeignKey('tag.id'))
 	difficulty = db.Column(db.Integer, nullable=True)
 	activities = db.relationship('Activity', backref='challenge', cascade="all, delete", lazy=False)
-
+'''
 class Tag(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	tagname = db.Column(db.String(100), nullable=True, unique=True)
 	challenges = db.relationship('Challenge', backref='tags', lazy=True)
-
+'''
 # store all user challenges active or not
 class Activity(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
