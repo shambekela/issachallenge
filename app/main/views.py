@@ -164,8 +164,7 @@ def dashboard():
 	# activity stats
 	act_query = db.session.query(db.func.DATE(Activity.timestamp).label("act_date") , 
 								  Activity.chal_status, 
-								  db.func.count(Activity.chal_status).label("num_results"),
-								  ChallengeStatus.status).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).join(ChallengeStatus).group_by(db.func.DATE(Activity.timestamp), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp)))
+								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp)))
 	# get all activities 
 	activities = act_query.all()
 
