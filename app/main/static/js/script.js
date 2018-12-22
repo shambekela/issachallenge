@@ -8,6 +8,8 @@
 		var content = {
 			action: $(this).data('action')
 		}
+
+		console.log(content);
 		
 		// send ajax request to activity_action controller.  
 		$.ajax({
@@ -133,7 +135,7 @@ function new_activity(action){
 				point = (parseInt($(el).text()) + 3);
 				$(el).text(point)
 			}
-		}, 1500).clearTimeout(timeoutObject)
+		}, 1500)
 
 	});
 }
