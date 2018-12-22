@@ -43,6 +43,12 @@
 			
 			// execute the function below
 			new_activity('done')
+			console.log('modal hide');
+		})		
+
+		$('#doneModalLong').on('hidden.bs.modal', function (e) {
+			
+			console.log('modal hidden');
 		})
 
 		// skip modal 
@@ -117,7 +123,7 @@ function new_activity(action){
 		location.reload();
 	})
 	.always(function() {
-		setTimeout(function(args) {
+		timer = setTimeout(function(args) {
 			$('.challenge-loader').addClass('d-none');
 			$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
 
@@ -127,6 +133,7 @@ function new_activity(action){
 				point = (parseInt($(el).text()) + 3);
 				$(el).text(point)
 			}
-		}, 1500)
+		}, 1500).clearTimeout(timeoutObject)
+
 	});
 }
