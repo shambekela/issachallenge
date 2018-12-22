@@ -12,6 +12,16 @@
 	 	<link rel="stylesheet" href="{{ url_for('main.static', filename='css/all.css') }}" crossorigin="anonymous">
 	 	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
 	 	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+	 	<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128246069-2"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-128246069-2');
+		</script>
+
 	{% endblock head %}
 </head>
 <body >
