@@ -86,16 +86,15 @@ def issa_challenge(currentuser, job):
 			'''
 		else:
 			next_run = scheduler.get_job(currentuser).next_run_time
-			
-			print('Before: ' + str(next_run))
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
 	
-			
-		print(scheduler.get_job(currentuser).next_run_time)
-
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
+
+	print("User Jobs: " + str(scheduler.get_jobs()))
+	sys.stdout.flush()
+
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
 
