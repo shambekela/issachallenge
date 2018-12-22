@@ -10,7 +10,7 @@ import sys, time, uuid, datetime, json
 #function that runs every 24 hours
 def challenge_done(currentuser):
 
-	# generates new random challenge
+	# generates new random challeng
 	random_challenge = db.session.query(Challenge.cid).order_by(db.func.random()).limit(1).first()
 	
 	# generates unique id for activity.
@@ -44,7 +44,7 @@ def issa_challenge(currentuser, job):
 	with app.app_context():
 
 		#generates a new random challenge
-		random_challenge = db.session.query(Challenge.cid).order_by(db.func.rand()).limit(1).first()
+		random_challenge = db.session.query(Challenge.cid).order_by(db.func.random()).limit(1).first()
 		
 		# generates a unique id for activity.
 		activityid = (uuid.uuid4().int & (1<<29)-1)
