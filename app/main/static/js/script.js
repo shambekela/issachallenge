@@ -123,6 +123,7 @@ function new_activity(action){
 
 			if(action == 'done'){
 				el = '.header-point'
+				console.log('executed')
 				point = (parseInt($(el).text()) + 3);
 				$(el).text(point)
 			}
