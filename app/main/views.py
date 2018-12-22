@@ -36,6 +36,8 @@ def challenge_done(currentuser):
 	""" re-add job """
 	next_run = scheduler.get_job(currentuser).next_run_time
 	scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
+	print("Next run: " + str(scheduler.get_job(currentuser).next_run_time))
+	sys.stdout.flush()
 
 
 # function that runs every 24 hours or on skip
@@ -85,15 +87,12 @@ def issa_challenge(currentuser, job):
 			print(response)
 			'''
 		else:
-			next_run = scheduler.get_job(currentuser).next_run_time
+			next_run = scheduler.get_job(int(currentuser)).next_run_time
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
 	
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
-
-	print("User Jobs: " + str(scheduler.get_jobs()))
-	sys.stdout.flush()
 
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
@@ -133,7 +132,10 @@ def home():
 	activity = db.session.query(Activity).filter_by(user_id=current_user.uuid, current=True).first()
 	
 	# set quote to be served to the user
-	quote = db.session.query(Quote).all()[dayofweek] 
+	quote = db.session.query(Quote).all()[dayofweek]
+
+	print("User Jobs: " + str(scheduler.get_jobs()))
+	sys.stdout.flush()
 
 	return render_template('home.html', activity=activity, quote=quote)
 
@@ -206,7 +208,7 @@ def profile():
 @login_required
 def activity_action():
 	action = request.form.get('action')
-	currentuser = current_user.uuid
+	currentuser = str(current_user.uuid)
 
 	# user cliked the skip button
 	if action == 'skip':
@@ -231,7 +233,6 @@ def delete_account():
 	# remove users job from scheduler
 	if scheduler.get_job(currentuser):
 		scheduler.remove_job(id=currentuser)
-		print('removed')
 
 	user = db.session.query(User).filter(User.uuid == int(currentuser)).first()
 	db.session.delete(user)
