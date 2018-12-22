@@ -43,9 +43,6 @@
 			
 			// execute the function below
 			new_activity('done')
-			el = $('.header-point')
-			cur_point = el.text()
-			el.text(parseInt(cur_point) + 3)
 		})
 
 		// skip modal 
@@ -123,6 +120,12 @@ function new_activity(action){
 		setTimeout(function(args) {
 			$('.challenge-loader').addClass('d-none');
 			$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
+
+			if(action == 'done'){
+				el = '.header-point'
+				point = (parseInt($(el).text()) + 3);
+				$(el).text(point)
+			}
 		}, 1500)
 	});
 }
