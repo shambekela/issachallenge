@@ -86,8 +86,9 @@ def issa_challenge(currentuser, job):
 
 			print(response)
 			'''
-		else:
-			next_run = scheduler.get_job(int(currentuser)).next_run_time
+		
+		if not job:
+			next_run = scheduler.get_job(currentuser).next_run_time
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
 	
 # before request handler: redirect if not logged in .    
