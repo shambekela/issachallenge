@@ -59,6 +59,8 @@
 			// execute function below
 			new_activity('skip');			
 		})
+
+		return false
 	});
 
 	// delete account 
