@@ -12,11 +12,11 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-7">
-				<div class="pt-4 pb-4">
-					<h5 class="issa-page-title font-weight-normal">Current challenge </h5>
-				</div>
-				<div>
+				<div class="pt-4">
 				{% if activity is not none %}
+					<div class="pb-4">
+						<h5 class="issa-page-title font-weight-normal">Current challenge </h5>
+					</div>
 				    <div class="d-none challenge-loader text-center">
 						<p class="text-muted h5">Loading a new challenge...</p>
 						<img src="https://loading.io/spinners/typing/lg.-text-entering-comment-loader.gif" style="width: 160px;">
@@ -61,16 +61,20 @@
 						</div>
 					</div>
 				{% else %}
-					<div class="card challenge-complete">
+					<div class="card p-4 challenge-complete">
 					  <div class="card-body challenge-complete-body">
-					  	<h1>Challenge completed!</h1>
+					  	<h1 class="issa-header">Challenge completed!</h1>
 					   	<i class="far fa-star display-3"></i>
-					   	<p class="col-lg-8 m-auto pt-3 quote">You completed your challenge. <br>Press another challenge below or wait for an email with a new challenge.</p>
+					   	<p class="col-lg-8 m-auto pt-3 issa-header">You completed for the day.
+					   		<br>
+					   		Press the button below if you want more or we will send you a new challenge via email.
+					   	</p>
 					  </div>
 					  <div class="card-body">
-					  	<button class="btn btn-dark activity-action-btn btn-sm" data-action='skip'>Another challenge</button>
+					  	<a class="btn btn-dark btn-sm p-2 text-light issa-header font-weight-normal activity-action-btn skip-modal-skip" data-dismiss="modal" data-action='skip'>Let's do this</a>
 					  </div>
 					</div>
+					<p class="small p-3 text-center">If you don’t challenges yourself, you will never realize what you can become.</p>
 				{% endif %}
 				</div>
 			</div>

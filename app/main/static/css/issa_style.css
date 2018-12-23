@@ -121,23 +121,20 @@ div.issa-dashboard-nav a.nav-link.active{
 
 .container div.challenge-complete {
 	text-align: center;
-	background-color: #f5f7fa!important;
-}
-
-.container div.challenge-complete .challenge-complete-body {
-	opacity: 0.3;
+	background-color: #fffefe6b!important;
 }
 
 .modal div.done-modal-content , .modal div.skip-modal-content{
 	background-color: #563d7c!important;
 }
 
-div.card.challenge-card {
+div.card.challenge-card, div.card.challenge-complete {
 	border: 0;
 	box-shadow: 0 3px 6px 0 #36445217;
 }
 
-div.card .challenge-card-body {
+div.card .challenge-complete-body {
+	opacity: 0.8;
 }
 
 

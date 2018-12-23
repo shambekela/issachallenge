@@ -22,16 +22,23 @@
 		})
 
 		// when done modal is shown 
-		$('#doneModalLong').off().on('shown.bs.modal', function(e){
+		$('#doneModalLong').off('shown.bs.modal').on('shown.bs.modal', function(e){
 			var animationEnd = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
 			var animationName = 'animated bounceIn'
 			var element = '#doneModalLong'
+			var today = new Date();
 
 			// randomly generated icon
-			icons = ['<i class="far fa-star"></i>', '<i class="fas fa-award"></i>', '<i class="fas fa-trophy"></i>', '<i class="fas fa-shield-alt"></i>']
-			var item = icons[Math.floor(Math.random()*icons.length)];
+			icons = ['<i class="far fa-star"></i>', 
+					 '<i class="fas fa-trophy"></i>',
+					 '<i class="fas fa-award"></i>',					 
+					 '<i class="fas fa-trophy"></i>',
+					 '<i class="far fa-star"></i>',
+					 '<i class="fas fa-shield-alt"></i>',
+					 '<i class="fas fa-award"></i>']
+			console.log(icons.length)
+			var item = icons[today.getDay()];
 			$('.done-icon').html(item)
-
 
 			// animation on done modal
 			$(element).addClass(animationName).one(animationEnd, function(event) {
@@ -40,35 +47,16 @@
 
 		})
 
-		$('.modal').on('show.bs.modal', function(event) {
-			console.log(event);
-			console.log($(this));
-			console.log(this);
-		});
-
-		// when done modal is hidden
-		$('#doneModalLong').off().on('hide.bs.modal', function (e) {
-			
-			// execute the function below
-			new_activity('done')
-			console.log('hide modal');
-		})		
-
-		// skip modal 
-		$('#skipModal').off().on('hide.bs.modal', function (e) {
-			
-			// execute function below
-			new_activity('skip');
-			console.log('skip modal')			
+		$('.modal').off('hide.bs.modal').on('hide.bs.modal', function (e) {
+			el = e.target.id
+			if(el == 'doneModalLong'){
+				new_activity('done')
+				console.log('done modal');
+			} else if (el == 'skipModal'){
+				new_activity('skip')
+				console.log('skip modal');
+			}
 		})
-	});
-
-	// delete account 
-	$('.delete-account-confirm').on('click', function(event) {
-		event.preventDefault();
-
-		location.href = '/delete_account'; 
-				
 	});
 
 	// receive email checkbox
@@ -132,8 +120,7 @@ function new_activity(action){
 			$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
 
 			if(action == 'done'){
-				el = '.header-point'
-				console.log('executed')
+				el = '.header-point';
 				point = (parseInt($(el).text()) + 3);
 				$(el).text(point)
 			}

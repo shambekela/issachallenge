@@ -1,7 +1,7 @@
 from . import main
 from app import scheduler, db, moment
-from flask import render_template, current_app, request, redirect, url_for, jsonify
-from flask_login import current_user, login_required
+from flask import render_template, current_app, request, redirect, url_for, jsonify, session
+from flask_login import current_user, login_required, logout_user
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote
 import os
 from sparkpost import SparkPost
@@ -122,6 +122,7 @@ def home():
 	#quote to be displayed
 	quote = None
 
+	print(current_user.uuid)
 
 	# scheduler handler: add job with current_user id to scheduler 
 	if scheduler.get_job(current_loggedin) is None:
@@ -129,8 +130,9 @@ def home():
 		issa_challenge(current_loggedin, False)
 
 
+
 	#get current user activity ( challenge )
-	activity = db.session.query(Activity).filter_by(user_id=current_user.uuid, current=True).first()
+	activity = db.session.query(Activity).filter(Activity.user_id==current_user.uuid, Activity.current==True).first()
 	
 	# set quote to be served to the user
 	quote = db.session.query(Quote).all()[dayofweek]
@@ -235,11 +237,15 @@ def delete_account():
 	if scheduler.get_job(currentuser):
 		scheduler.remove_job(id=currentuser)
 
+	# clear user session and logout
+	session.clear()
+	logout_user
+
 	user = db.session.query(User).filter(User.uuid == int(currentuser)).first()
 	db.session.delete(user)
-	db.session.commit()	
+	db.session.commit()
 
-	return redirect(url_for('api.logout'))
+	return redirect(url_for('main.landing'))
 
 @main.route('/get_started', methods=['POST'])
 @login_required

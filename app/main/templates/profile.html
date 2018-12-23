@@ -66,7 +66,7 @@
 			   				<p>Deleting your account will cancel your subscription and delete everything tied to your account, including habits and activities.</p>
 
 							<p>If you’re absolutely sure you want to delete your account, press delete account button below.</p>
-                            <button class="btn btn-danger btn-sm delete-account-confirm" id="deleteConfirmButton" role="button"> Delete account</button>
+                            <a class="btn btn-danger btn-sm" href="{{ url_for('main.delete_account') }}" role="button"> Delete account</a>
                         </div>
 					  </div>
 					</div>

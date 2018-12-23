@@ -6,7 +6,7 @@ from flask_moment import Moment
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
 
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
 moment = Moment()
 login_manager = LoginManager()
