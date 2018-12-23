@@ -40,8 +40,8 @@
 
 		})
 
-		$('.modal').on('click', '.selector', function(event) {
-			event.preventDefault();
+		$('.modal').on('show.bs.modal', function(event) {
+			console.log(event);
 			console.log($(this));
 			console.log(this);
 		});
