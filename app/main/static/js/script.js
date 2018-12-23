@@ -22,7 +22,7 @@
 		})
 
 		// when done modal is shown 
-		$('#doneModalLong').on('shown.bs.modal', function(e){
+		$('#doneModalLong').off().on('shown.bs.modal', function(e){
 			var animationEnd = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
 			var animationName = 'animated bounceIn'
 			var element = '#doneModalLong'
@@ -40,27 +40,27 @@
 
 		})
 
+		$('.modal').on('click', '.selector', function(event) {
+			event.preventDefault();
+			console.log($(this));
+			console.log(this);
+		});
+
 		// when done modal is hidden
-		$('#doneModalLong').on('hide.bs.modal', function (e) {
+		$('#doneModalLong').off().on('hide.bs.modal', function (e) {
 			
 			// execute the function below
 			new_activity('done')
-			console.log('modal hide');
+			console.log('hide modal');
 		})		
 
-		$('#doneModalLong').on('hidden.bs.modal', function (e) {
-			
-			console.log('modal hidden');
-		})
-
 		// skip modal 
-		$('#skipModal').on('hide.bs.modal', function (e) {
+		$('#skipModal').off().on('hide.bs.modal', function (e) {
 			
 			// execute function below
-			new_activity('skip');			
+			new_activity('skip');
+			console.log('skip modal')			
 		})
-
-		return false
 	});
 
 	// delete account 
