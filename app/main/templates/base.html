@@ -91,6 +91,9 @@
 			<script src="{{ url_for('main.static', filename='js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
 			<script type="text/javascript" src="{{ url_for('main.static', filename='js/script.js') }}"></script>
 			{{ moment.include_moment() }}
+				<script>
+					$('[data-toggle="tooltip"]').tooltip()
+				</script>
 		{% endblock scripts %}
 	</div>
 </body>

@@ -71,21 +71,21 @@ def issa_challenge(currentuser, job):
 
 		# send new activity email
 
+		'''
 		if job:
-
-			'''
-			email = db.session.query(User.email).filter(User.uuid== int(currentuser)).first()
-			if email:
+			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
+			email = user.email
+			if email and receiveEmail:
 				sp = SparkPost(sparkpostkey)
 				response = sp.transmissions.send(
 				text = 'New challenge - Issa challenge',	
-				recipients=[email.email],
+				recipients=[email],
 				html= render_template('email/challenge_notification.html'),
 				from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
 				subject='You have a new challenge {}'.format(datetime.datetime.now().strftime('%dth %b %Y')))
 
 			print(response)
-			'''
+		'''
 		
 		if not job:
 			next_run = scheduler.get_job(currentuser).next_run_time
@@ -94,9 +94,6 @@ def issa_challenge(currentuser, job):
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
-
-	print("The date: " + datetime.now())
-	sys.stdout.flush()
 
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
@@ -125,14 +122,18 @@ def home():
 	#quote to be displayed
 	quote = None
 
-	print(current_user.uuid)
-
+	
 	# scheduler handler: add job with current_user id to scheduler 
 	if scheduler.get_job(current_loggedin) is None:
-		scheduler.add_job(id=(current_loggedin), func=issa_challenge, args=(current_loggedin, True), trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
+		scheduler.add_job(id=(current_loggedin), func=issa_challenge, args=(current_loggedin, True), trigger='interval',  minutes=3, max_instances=3, misfire_grace_time=None)
 		issa_challenge(current_loggedin, False)
 
-
+	print("The date now: " + str(datetime.datetime.now()))
+	sys.stdout.flush()
+	print("The date uct now: " + str(datetime.datetime.utcnow()))
+	sys.stdout.flush()
+	print("The date next run time: " + str(scheduler.get_job(str(current_user.uuid)).next_run_time))
+	sys.stdout.flush()
 
 	#get current user activity ( challenge )
 	activity = db.session.query(Activity).filter(Activity.user_id==current_user.uuid, Activity.current==True).first()
@@ -140,8 +141,6 @@ def home():
 	# set quote to be served to the user
 	quote = db.session.query(Quote).all()[dayofweek]
 
-	print("User Jobs: " + str(scheduler.get_jobs()))
-	sys.stdout.flush()
 
 	return render_template('home.html', activity=activity, quote=quote)
 
@@ -158,7 +157,7 @@ def dashboard():
 	inactive = 0
 
 	today = datetime.datetime.now().date()
-	date_joined = current_user.dateJoined
+	date_joined = current_user.dateJoined.date()
 
 	# num of days since joining
 	numOfDays = today - date_joined

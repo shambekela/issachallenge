@@ -54,8 +54,8 @@
 									<div class="container">
 										<nav class="mb-2  d-block">
 										  <div class="nav issa-dashboard-nav nav-pills" id="v-pills-tab" role="tablist">
-										      <a class="nav-link btn-sm text-dark active" id="v-pills-home-tab" data-toggle="pill" href="#visual-complete" role="tab" aria-controls="v-pills-home" aria-selected="true">Progress</a>
-										      <a class="nav-link btn-sm text-dark" id="v-pills-profile-tab" data-toggle="pill" href="#done-activities" role="tab" aria-controls="v-pills-profile" aria-selected="false">Challenges</a>
+										      <a class="nav-link btn-sm text-dark active" id="v-pills-home-tab" data-toggle="pill" href="#visual-complete" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-chart-line"></i> Progress</a>
+										      <a class="nav-link btn-sm text-dark" id="v-pills-profile-tab" data-toggle="pill" href="#done-activities" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="far fa-check-circle"></i> Challenges</a>
 										    </div>
 										</nav>
 									</div>
@@ -142,7 +142,4 @@
 
 {% block scripts %}
 	{{ super() }}
-	<script>
-		$('[data-toggle="tooltip"]').tooltip()
-	</script>
 {% endblock scripts %}

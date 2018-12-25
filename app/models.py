@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
 	uuid = db.Column(db.Integer, unique=True ,index=True)
 	username = db.Column(db.String(255), unique=True, nullable=False)
 	email = db.Column(db.String(255), unique=True)
-	dateJoined = db.Column(db.Date, nullable=False, default=datetime.utcnow())
+	dateJoined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 	avatar = db.Column(db.String(200))
 	tokens = db.Column(db.Text)
 	numOfLogins = db.Column(db.Integer, default=1)
@@ -54,16 +54,14 @@ class Challenge(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	cid = db.Column(db.BigInteger, unique=True, index=True)
 	name = db.Column(db.String(255), index=True, nullable=False)
-	#c_tag = db.Column(db.Integer, db.ForeignKey('tag.id'))
-	difficulty = db.Column(db.Integer, nullable=True)
+	c_tag = db.Column(db.Integer, db.ForeignKey('tag.id'))
 	activities = db.relationship('Activity', backref='challenge', cascade="all, delete", lazy=False)
-'''
-class Tag(db.Model):
 
+class Tag(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	tagname = db.Column(db.String(100), nullable=True, unique=True)
+	tagname = db.Column(db.String(200), nullable=False, unique=True)
 	challenges = db.relationship('Challenge', backref='tags', lazy=True)
-'''
+
 # store all user challenges active or not
 class Activity(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -97,7 +95,7 @@ class ChallengeStatus(db.Model):
 class Quote(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	content = db.Column(db.String(250), unique=True)
-	author = db.Column(db.String(250), default='anonymous')
+	author = db.Column(db.String(250), nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id):

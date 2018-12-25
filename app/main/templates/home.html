@@ -29,7 +29,8 @@
 					    		<div class="col-lg-11">
 							    	<div class=" text-success pb-4">
 								    	<i class="fas fa-list-ul"></i>
-								    	<small class="activity-timestamp">{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }}</small>
+								    	<small class="activity-timestamp">{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }} </small>
+								    	<span class="float-right"><i class="fas fa-thermometer-half"></i><small> {{ activity.challenge.tags.tagname }}</small></span>
 								    </div>
 								    <div>
 								    	<span class="h5 card-text activity-challenge">{{ activity.get_challenge_name() }}</span> <!-- display current user activity -->	
@@ -40,10 +41,11 @@
 					  </div>
 					  <div class="pl-4 card-footer border-0 challenge-card-footer action">
 					    <span class="p-2">
-					    	<a href="#" class="btn text-success btn-sm font-weight-bold activity-action-btn" data-action='done' data-toggle="modal" data-target="#doneModalLong"><i class="fas fa-check"></i> Done</a>
+					    	<a href="#" class="btn text-success btn-sm font-weight-bold activity-action-btn" data-action='done' data-toggle="modal" data-target="#doneModalLong">
+					    		<span data-toggle="tooltip" data-placement="bottom" title="Challenge completed ?"><i class="fas fa-check"></i> Done</span></a>
 					    </span>
 					    <span class="p-2">
-					    	<a href="#" class="btn text-danger btn-sm font-weight-bold" data-toggle="modal" data-target="#skipModal">Skip</a>
+					    	<a href="#" class="btn text-danger btn-sm font-weight-bold" data-toggle="modal" data-target="#skipModal"><span data-toggle="tooltip" data-placement="bottom" title="Not today ?">Skip</span></a>
 					    </span>
 					  </div>
 					</div>

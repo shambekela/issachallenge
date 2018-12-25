@@ -16,10 +16,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-auto">
-							<p>	<img src="https://lh6.googleusercontent.com/-pEn4EZ-h7js/AAAAAAAAAAI/AAAAAAAAAIU/rhxH_P4b4Nw/photo.jpg" alt="User Avatar" class="useravatar"></p>
+							<p>	<img src="{{ current_user.avatar }}" alt="User Avatar" class="useravatar"></p>
 						</div>
 						<div class="col-auto mt-4">
 							<p>Joined {{ moment( current_user.dateJoined , local=True).fromNow() }}</p>
+							<p>Joined {{ moment( current_user.dateJoined, local=False).fromNow() }}</p>
+							<p>{{ moment().format('MMMM Do YYYY, h:mm:ss a')}}</p>
+							<p>{{ moment(current_user.dateJoined).format('MMMM Do YYYY, h:mm:ss a')}}</p>
 							<p>Completed {{ current_user.challenge_completed() }} challenges <span><a href="{{ url_for('main.dashboard') }}" class="small text-info"></a></span></p>
 						</div>
 					</div>
