@@ -13,7 +13,6 @@ moment = Moment()
 login_manager = LoginManager()
 scheduler = APScheduler()
 login_manager.session_protection = "strong"
-sslify = SSLify()
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -25,7 +24,9 @@ def create_app(config_name):
 	login_manager.init_app(app)
 	scheduler.init_app(app)
 	if app.config['SSL_REDIRECT']:
+		sslify = SSLify()
 		sslify.init_app(app)
+		
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint
 
