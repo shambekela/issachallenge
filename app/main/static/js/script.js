@@ -53,11 +53,15 @@
 			if(el == 'doneModalLong'){
 				new_activity('done')
 				console.log('done modal');
-			} else if (el == 'skipModal' && btn == 'skip'){
+			} 
+
+			if (el == 'skipModal' && btn == 'skip'){
 				new_activity('skip')
 				console.log('skip modal');
 				console.log(btn)
 			}
+			btn = null;
+			el = null;
 		})
 	});
 
