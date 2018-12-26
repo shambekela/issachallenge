@@ -15,17 +15,13 @@ def make_shell_context():
 	return dict(app=app )#, db=db)
 
 try:
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.connect((socket.gethostname(), 12345))
-except socket.error as e:
-	print(e)
-	sys.stdout.flush()
-else:
 	if scheduler.state != 1:
 		scheduler.start()
 		scheduler.delete_all_jobs()
-	
-	print(str(scheduler.state))
+		
+except socket.error as e:
+	print(e)
+	sys.stdout.flush()
 		
 
 if __name__ == '__main__':

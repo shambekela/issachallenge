@@ -1,1 +1,1 @@
-web: flask db upgrade; flask db migrate; gunicorn manage:app
+web: flask db upgrade; flask db migrate; gunicorn manage:app --preload
