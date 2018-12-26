@@ -24,8 +24,8 @@ def create_app(config_name):
 	moment.init_app(app)
 	login_manager.init_app(app)
 	scheduler.init_app(app)
-	sslify.init_app(app)
-
+	if app.config['SSL_REDIRECT']:
+		sslify.init_app(app)
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint
 
