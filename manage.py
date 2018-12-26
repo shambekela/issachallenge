@@ -1,10 +1,10 @@
 from flask_script import Manager, Shell
 from app import create_app, scheduler , db
 from flask_migrate import Migrate, MigrateCommand
-from app.models import User, Challenge, Activity, ChallengeStatus
+from app.models import User, Challenge, Activity, ChallengeStatus, Tags
 import os
 
-app = create_app(os.environ.get('ENVIRONMENT') or 'development')
+app = create_app(os.environ.get('ENVIRONMENT'))
 manager = Manager(app)
 migrate = Migrate(app, db)
 

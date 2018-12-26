@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
-from flask_sslify import SSLify
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
@@ -24,9 +23,9 @@ def create_app(config_name):
 	login_manager.init_app(app)
 	scheduler.init_app(app)
 	if app.config['SSL_REDIRECT']:
-		sslify = SSLify()
-		sslify.init_app(app)
-		
+		from flask_sslify import SSLify
+		sslify = SSLify(app)
+
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint
 
