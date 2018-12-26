@@ -30,7 +30,7 @@
 							    	<div class=" text-success pb-4">
 								    	<i class="fas fa-list-ul"></i>
 								    	<small class="activity-timestamp">{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }} </small>
-								    	<span class="float-right"><i class="fas fa-thermometer-half"></i><small> {{ activity.challenge.tags.tagname }}</small></span>
+								    	<span class="float-right"><i class="fas fa-thermometer-half"></i><small class="activity-tag"> {{ activity.challenge.tags.tagname }}</small></span>
 								    </div>
 								    <div>
 								    	<span class="h5 card-text activity-challenge">{{ activity.get_challenge_name() }}</span> <!-- display current user activity -->	

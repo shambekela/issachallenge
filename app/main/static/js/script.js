@@ -4,9 +4,10 @@
 	$('.activity-action-btn').on('click', function(event) {
 		event.preventDefault();
 
+		btn = $(this).data('action')
 		// get data attributes on clicked button
 		var content = {
-			action: $(this).data('action')
+			action: btn
 		}
 
 		console.log(content);
@@ -52,7 +53,7 @@
 			if(el == 'doneModalLong'){
 				new_activity('done')
 				console.log('done modal');
-			} else if (el == 'skipModal'){
+			} else if (el == 'skipModal' && btn == 'skip'){
 				new_activity('skip')
 				console.log('skip modal');
 			}
@@ -107,9 +108,11 @@ function new_activity(action){
 		type: 'POST'
 	})
 	.done(function(resp) {
-		if(!resp){ location.reload() }  
+		if(!resp){ location.reload() } 
+		console.log(resp) 
 		$('.activity-timestamp').text(moment(resp[1]).format('dddd, Do MMM YYYY'));
 		$('.activity-challenge').text(resp[2]);
+		$('.activity-tag').text(resp[3]);
 	})
 	.fail(function() {
 		location.reload();

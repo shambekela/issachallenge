@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
+from flask_sslify import SSLify
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
@@ -12,6 +13,7 @@ moment = Moment()
 login_manager = LoginManager()
 scheduler = APScheduler()
 login_manager.session_protection = "strong"
+sslify = SSLify()
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -22,6 +24,7 @@ def create_app(config_name):
 	moment.init_app(app)
 	login_manager.init_app(app)
 	scheduler.init_app(app)
+	sslify.init_app(app)
 
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint

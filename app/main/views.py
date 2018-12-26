@@ -2,16 +2,30 @@ from . import main
 from app import scheduler, db, moment
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
 from flask_login import current_user, login_required, logout_user
-from app.models import User, Challenge, Activity, ChallengeStatus, Quote
+from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
 import os
 from sparkpost import SparkPost
-import sys, time, uuid, datetime, json
+import sys, time, uuid, datetime, json, random
 
 #function that runs every 24 hours
 def challenge_done(currentuser):
+	random_challenge = None
 
 	# generates new random challeng
-	random_challenge = db.session.query(Challenge.cid).order_by(db.func.random()).limit(1).first()
+	while True:
+		query = db.session.query(Challenge.cid)
+		challenges = query.all()
+
+		# random challenge
+		random_challenge = random.choice(challenges)
+
+		activity = db.session.query(Activity.cid).filter(
+			Activity.user_id == int(currentuser), 
+			Activity.cid == random_challenge.cid).first()
+		
+		if activity is None:
+			break
+
 	
 	# generates unique id for activity.
 	activityid = (uuid.uuid4().int & (1<<29)-1)
@@ -45,9 +59,23 @@ def issa_challenge(currentuser, job):
 	app = scheduler.app
 	with app.app_context():
 
-		#generates a new random challenge
-		random_challenge = db.session.query(Challenge.cid).order_by(db.func.random()).limit(1).first()
-		
+		random_challenge = None
+
+		# generates new random challeng
+		while True:
+			query = db.session.query(Challenge.cid)
+			challenges = query.all()
+
+			# random challenge
+			random_challenge = random.choice(challenges)
+
+			activity = db.session.query(Activity.cid).filter(
+				Activity.user_id == int(currentuser), 
+				Activity.cid == random_challenge.cid).first()
+			
+			if activity is None:
+				break
+
 		# generates a unique id for activity.
 		activityid = (uuid.uuid4().int & (1<<29)-1)
 
@@ -56,7 +84,7 @@ def issa_challenge(currentuser, job):
 		sparkpostemail = current_app.config['SPARKPOST_EMAIL']
 
 		#delete current activity
-		db.session.query(Activity).filter(Activity.user_id == currentuser).filter(Activity.chal_status != 2).delete()
+		db.session.query(Activity).filter(Activity.chal_status != 2, Activity.user_id == currentuser).delete()
 	
 
 		# add a new activity for this user.
@@ -71,7 +99,6 @@ def issa_challenge(currentuser, job):
 
 		# send new activity email
 
-		'''
 		if job:
 			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
 			email = user.email
@@ -85,7 +112,8 @@ def issa_challenge(currentuser, job):
 				subject='You have a new challenge {}'.format(datetime.datetime.now().strftime('%dth %b %Y')))
 
 			print(response)
-		'''
+			sys.stdout.flush()
+
 		
 		if not job:
 			next_run = scheduler.get_job(currentuser).next_run_time
@@ -228,6 +256,7 @@ def activity_action():
 
 	return jsonify(action)
 
+
 # delete an account 
 @main.route('/delete_account', methods=['POST', 'GET'])
 @login_required
@@ -262,9 +291,13 @@ def get_started():
 
 	return 'a'
 
+# return new activity to javascript 
 @main.route('/new_activity', methods=['POST'])
 @login_required
 def new_activity():
 	# get specific activities  
-	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name).filter(Activity.user_id==current_user.uuid, Activity.current==True,Challenge.cid == Activity.cid).first()
+	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name, Tag.tagname ).filter(Activity.user_id==current_user.uuid, 
+		Activity.current==True,
+		Challenge.cid == Activity.cid,
+		Challenge.c_tag == Tag.id).first()
 	return jsonify(activity)
