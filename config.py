@@ -36,6 +36,7 @@ class Config:
 
 class DevelopmentConfig(Config):
 	DEBUG = True
+	SSL_REDIRECT = False
 
 class TestingConfig(Config):
 	pass

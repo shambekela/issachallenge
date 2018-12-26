@@ -5,21 +5,33 @@
 		event.preventDefault();
 
 		btn = $(this).data('action')
+		response = null;
+
 		// get data attributes on clicked button
 		var content = {
 			action: btn
 		}
 
-		console.log(content);
 		
-		// send ajax request to activity_action controller.  
+		// send ajax request to activity_action controller. 
+		$('.challenge-loader').removeClass('d-none')
+		$('.challenge-card').addClass('d-none').removeClass('animated fast zoomIn delay-0.5s') 
+		
 		$.ajax({
 			url: '/activity_action',
 			type: 'POST',
 			data: content,
 		})
 		.done(function(resp) {
-			
+			response = resp
+
+			if(btn == 'done'){
+				new_activity(resp, 'done')
+			} 
+
+			if (btn == 'skip'){
+				new_activity(resp, 'skip')
+			}
 		})
 
 		// when done modal is shown 
@@ -49,19 +61,7 @@
 		})
 
 		$('.modal').off('hide.bs.modal').on('hide.bs.modal', function (e) {
-			el = e.target.id
-			if(el == 'doneModalLong'){
-				new_activity('done')
-				console.log('done modal');
-			} 
 
-			if (el == 'skipModal' && btn == 'skip'){
-				new_activity('skip')
-				console.log('skip modal');
-				console.log(btn)
-			}
-			btn = null;
-			el = null;
 		})
 	});
 
@@ -83,7 +83,6 @@
 			$('.receive-email-updated').show().delay(5000).fadeOut(function(){
 				$(this).remove();
 			});
-
 		})
 	});
 
@@ -103,35 +102,20 @@
 }())
 
 // function for loading new activity to the user.
-function new_activity(action){
-	$('.challenge-loader').removeClass('d-none')
-	$('.challenge-card').addClass('d-none').removeClass('animated fast zoomIn delay-0.5s')
+function new_activity(response, action){
+	
+	$('.activity-timestamp').text(moment(response[1]).format('dddd, Do MMM YYYY'));
+	$('.activity-challenge').text(response[2]);
+	$('.activity-tag').text(response[3]);
 
-	$.ajax({
-		url: '/new_activity',
-		type: 'POST'
-	})
-	.done(function(resp) {
-		if(!resp){ location.reload() } 
-		console.log(resp)
-		$('.activity-timestamp').text(moment(resp[1]).format('dddd, Do MMM YYYY'));
-		$('.activity-challenge').text(resp[2]);
-		$('.activity-tag').text(resp[3]);
-	})
-	.fail(function() {
-		location.reload();
-	})
-	.always(function() {
-		timer = setTimeout(function(args) {
-			$('.challenge-loader').addClass('d-none');
-			$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
+	timer = setTimeout(function(args) {
+		$('.challenge-loader').addClass('d-none');
+		$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
 
-			if(action == 'done'){
-				el = '.header-point';
-				point = (parseInt($(el).text()) + 3);
-				$(el).text(point)
-			}
-		}, 1500)
-
-	});
+		if(action == 'done'){
+			el = '.header-point';
+			point = (parseInt($(el).text()) + 3);
+			$(el).text(point)
+		}
+	}, 1500)
 }

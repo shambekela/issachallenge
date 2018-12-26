@@ -255,11 +255,18 @@ def activity_action():
 
 	# user clicked the done button
 	if action == 'done':
-
 		# function to be executed.
 		challenge_done(currentuser)
 
-	return jsonify(action)
+	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name, Tag.tagname ).filter(Activity.user_id==current_user.uuid, 
+		Activity.current==True,
+		Challenge.cid == Activity.cid,
+		Challenge.c_tag == Tag.id).first()
+
+	print(activity)
+	sys.stdout.flush()
+
+	return jsonify(activity)
 
 
 # delete an account 
@@ -295,16 +302,3 @@ def get_started():
 	db.session.commit()
 
 	return 'a'
-
-# return new activity to javascript 
-@main.route('/new_activity', methods=['POST'])
-@login_required
-def new_activity():
-	# get specific activities  
-	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name, Tag.tagname ).filter(Activity.user_id==current_user.uuid, 
-		Activity.current==True,
-		Challenge.cid == Activity.cid,
-		Challenge.c_tag == Tag.id).first()
-	print(activity)
-	sys.stdout.flush()
-	return jsonify(activity)
