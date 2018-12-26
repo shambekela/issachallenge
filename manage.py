@@ -15,13 +15,13 @@ def make_shell_context():
 	return dict(app=app )#, db=db)
 
 try:
-	scheduler.start()
-	scheduler.delete_all_jobs()
-except socket.error as e:
-	scheduler.shutdown()
-finally:
-	scheduler.start()
-
+	if scheduler.state != 1:
+		scheduler.start()
+		scheduler.delete_all_jobs()
+except Exception as e:
+	print(e)
+	sys.stdout.flush()
+		
 
 if __name__ == '__main__':
 	manager.run()
