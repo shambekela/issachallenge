@@ -98,7 +98,7 @@ def issa_challenge(currentuser, job):
 		db.session.commit()
 
 		# send new activity email
-
+		'''
 		if job:
 			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
 			email = user.email
@@ -114,7 +114,7 @@ def issa_challenge(currentuser, job):
 				print("response: " + str(response))
 				sys.stdout.flush()
 
-		
+		'''
 		if not job:
 			next_run = scheduler.get_job(currentuser).next_run_time
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
