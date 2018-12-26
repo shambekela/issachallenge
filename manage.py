@@ -18,7 +18,6 @@ if scheduler.state == 1:
 	scheduler.shutdown()
 	scheduler.delete_all_jobs()
 
-scheduler.start()
-
 if __name__ == '__main__':
 	manager.run()
+	scheduler.start()

@@ -56,6 +56,7 @@
 			} else if (el == 'skipModal' && btn == 'skip'){
 				new_activity('skip')
 				console.log('skip modal');
+				console.log(btn)
 			}
 		})
 	});
@@ -109,7 +110,7 @@ function new_activity(action){
 	})
 	.done(function(resp) {
 		if(!resp){ location.reload() } 
-		console.log(resp) 
+
 		$('.activity-timestamp').text(moment(resp[1]).format('dddd, Do MMM YYYY'));
 		$('.activity-challenge').text(resp[2]);
 		$('.activity-tag').text(resp[3]);
