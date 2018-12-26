@@ -305,4 +305,5 @@ def new_activity():
 		Activity.current==True,
 		Challenge.cid == Activity.cid,
 		Challenge.c_tag == Tag.id).first()
+	
 	return jsonify(activity)

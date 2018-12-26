@@ -95,10 +95,9 @@
 			url: '/get_started',
 			type: 'POST',
 		})
-		.done(function() {
-			console.log("success");
-		});
-		
+		.fail(function() {
+			location.reload()
+		});		
 	});
 
 }())
@@ -114,7 +113,7 @@ function new_activity(action){
 	})
 	.done(function(resp) {
 		if(!resp){ location.reload() } 
-
+		console.log(resp)
 		$('.activity-timestamp').text(moment(resp[1]).format('dddd, Do MMM YYYY'));
 		$('.activity-challenge').text(resp[2]);
 		$('.activity-tag').text(resp[3]);
