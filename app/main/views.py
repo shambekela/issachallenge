@@ -98,26 +98,22 @@ def issa_challenge(currentuser, job):
 		db.session.commit()
 
 		# send new activity email
-		try:
-			if job:
+
+		if job:
 			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
 			email = user.email
 			if email and user.receiveEmail:
 				sp = SparkPost(sparkpostkey)
 				response = sp.transmissions.send(
-				text = 'New challenge - Issa challenge',    
+				text = 'New challenge - Issa challenge',	
 				recipients=[email],
 				html= render_template('email/challenge_notification.html'),
 				from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
 				subject='You have a new challenge {}'.format(datetime.datetime.now().strftime('%dth %b %Y')))
 
-				print(response)
+				print("response: " + str(response))
 				sys.stdout.flush()
 
-		except Exception as e:
-			print(e)
-			sys.stdout.flush()
-		
 		
 		if not job:
 			next_run = scheduler.get_job(currentuser).next_run_time
