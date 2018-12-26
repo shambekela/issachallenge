@@ -120,13 +120,10 @@ def issa_challenge(currentuser, job):
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
 
 	print('Executed')		
-	
+			
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
-
-	if scheduler.state != 1:
-		scheduler.start()
 
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
