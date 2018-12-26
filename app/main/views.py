@@ -125,6 +125,9 @@ def issa_challenge(currentuser, job):
 @main.before_request
 def before_request():
 
+	scheduler.state != 1:
+		scheduler.start()
+
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
 
