@@ -156,10 +156,12 @@ def home():
 	
 	# scheduler handler: add job with current_user id to scheduler 
 	if scheduler.get_job(current_loggedin) is None:
+		print('job added')
+		sys.stdout.flush()
 		scheduler.add_job(id=(current_loggedin), func=issa_challenge, args=(current_loggedin, True), trigger='interval',  minutes=3, max_instances=3, misfire_grace_time=None)
 		issa_challenge(current_loggedin, False)
 
-	print("The date next run time: " + str(scheduler.get_job(str(current_user.uuid)).next_run_time))
+	print("The date next run time: " + str(scheduler.get_job(current_loggedin).next_run_time))
 	sys.stdout.flush()
 
 	#get current user activity ( challenge )
