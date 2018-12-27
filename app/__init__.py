@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager, current_user
 from flask_apscheduler import APScheduler
-from app.main.utils import challenge_scheduler
 import sys, socket
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
@@ -23,6 +22,7 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	moment.init_app(app)
 	login_manager.init_app(app)
+	from app.main.utils import challenge_scheduler
 
 	if app.config['SSL_REDIRECT']:
 		from flask_sslify import SSLify
