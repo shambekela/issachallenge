@@ -6,6 +6,7 @@ from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
 import os
 from sparkpost import SparkPost
 import sys, time, uuid, datetime, json, random
+from app.utils import challenge_done, challenge_skip
 
 
 # before request handler: redirect if not logged in .    
