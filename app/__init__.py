@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager, current_user
 from flask_apscheduler import APScheduler
+from app.main.utils import challenge_scheduler
 import sys, socket
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
@@ -34,10 +35,13 @@ def create_app(config_name):
 		print('already')
 		sys.stdout.flush()
 	else:
-		print('Added' + str(current_user.uuid))
+		print('Added')
 		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()
+		scheduler.add_job(id=str('issa-challenge-job'), func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
+		print(scheduler.get_jobs())
+		sys.stdout.flush()
 
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint

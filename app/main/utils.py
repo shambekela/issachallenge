@@ -1,10 +1,14 @@
+from app import scheduler, db
+from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
+from sparkpost import SparkPost
+import sys, time, uuid, datetime, json, random
 
 '''
 	function runs when challenge is done
 '''
-def challenge_done(currentuser):
+def challenge_done(current_user):
 	random_challenge = None
-
+	currentuser = current_user.uuid
 	# generates new random challeng
 	while True:
 		query = db.session.query(Challenge.cid)
@@ -45,9 +49,10 @@ def challenge_done(currentuser):
 	sys.stdout.flush()
 
 ''' runs when users skips a challenge'''
-def challenge_skip(currentuser):
+def challenge_skip(current_user):
 
 	random_challenge = None
+	currentuser = current_user.uuid
 
 	# generates new random challeng
 	while True:
@@ -85,11 +90,12 @@ def challenge_skip(currentuser):
 	sys.stdout.flush()		
 
 ''' function runs with apscheduler '''
-def challenge_scheduler(currentuser):
+def challenge_scheduler():
 	app = scheduler.app
 	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
 	with app.app_context():
-
+		print('the job: ' + str(scheduler.get_job(id=str('issa-challenge'))))
+		'''
 		random_challenge = None
 
 		# generates new random challeng
@@ -129,7 +135,7 @@ def challenge_scheduler(currentuser):
 		db.session.commit()
 
 		# send new activity email
-		'''
+		
 		user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
 		email = user.email
 		if email and user.receiveEmail:
@@ -144,6 +150,5 @@ def challenge_scheduler(currentuser):
 			print("response: " + str(response))
 			sys.stdout.flush()
 		'''
-
 	print('Scheduler Executed')
 	sys.stdout.flush()

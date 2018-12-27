@@ -7,122 +7,7 @@ import os
 from sparkpost import SparkPost
 import sys, time, uuid, datetime, json, random
 
-#function that runs every 24 hours
-def challenge_done(currentuser):
-	random_challenge = None
 
-	# generates new random challeng
-	while True:
-		query = db.session.query(Challenge.cid)
-		challenges = query.all()
-
-		# random challenge
-		random_challenge = random.choice(challenges)
-
-		activity = db.session.query(Activity.cid).filter(
-			Activity.user_id == int(currentuser), 
-			Activity.cid == random_challenge.cid).first()
-		
-		if activity is None:
-			break
-
-	
-	# generates unique id for activity.
-	activityid = (uuid.uuid4().int & (1<<29)-1)
-	
-	#get current activity.
-	for a in Activity.query.filter_by(user_id = currentuser, chal_status = 4).all():
-		a.set_status(2) # set current activity to done
-		a.set_point(3) # 3 points for each activity completed
-		a.set_current(False) # not current anymore
-	
-
-	# add a new activity for this user.
-	active = Activity(activity_id=activityid, 
-					  cid=random_challenge.cid,
-					  user_id=int(currentuser),
-					  current=True,
-					  chal_status=4)
-
-	db.session.add(active)
-	db.session.commit()
-
-	""" re-add job """
-	next_run = scheduler.get_job(currentuser).next_run_time
-	scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
-	print("Next run: " + str(scheduler.get_job(currentuser).next_run_time))
-	sys.stdout.flush()
-
-
-# function that runs every 24 hours or on skip
-def issa_challenge(currentuser, job):
-	app = scheduler.app
-	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
-	with app.app_context():
-
-		random_challenge = None
-
-		# generates new random challeng
-		while True:
-			query = db.session.query(Challenge.cid)
-			challenges = query.all()
-
-			# random challenge
-			random_challenge = random.choice(challenges)
-
-			activity = db.session.query(Activity.cid).filter(
-				Activity.user_id == int(currentuser), 
-				Activity.cid == random_challenge.cid).first()
-			
-			if activity is None:
-				break
-
-		# generates a unique id for activity.
-		activityid = (uuid.uuid4().int & (1<<29)-1)
-
-		# email credentials
-		sparkpostkey = current_app.config['SPARKPOST_KEY']
-		sparkpostemail = current_app.config['SPARKPOST_EMAIL']
-
-		#delete current activity
-		db.session.query(Activity).filter(Activity.chal_status != 2, Activity.user_id == currentuser).delete()
-	
-
-		# add a new activity for this user.
-		active = Activity(activity_id=activityid, 
-						  cid=random_challenge.cid,
-						  user_id=int(currentuser),
-						  current=True,
-						  chal_status=4)
-
-		db.session.add(active)
-		db.session.commit()
-
-		# send new activity email
-		'''
-		if job:
-			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
-			email = user.email
-			if email and user.receiveEmail:
-				sp = SparkPost(sparkpostkey)
-				response = sp.transmissions.send(
-				text = 'New challenge - Issa challenge',	
-				recipients=[email],
-				html= render_template('email/challenge_notification.html'),
-				from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
-				subject='You have a new challenge {}'.format(datetime.datetime.now().strftime('%dth %b %Y')))
-
-				print("response: " + str(response))
-				sys.stdout.flush()
-
-		'''
-		if not job:
-			next_run = scheduler.get_job(currentuser).next_run_time
-			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
-
-	print('Executed')
-	sys.stdout.flush()		
-			
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
@@ -156,14 +41,8 @@ def home():
 
 	
 	# scheduler handler: add job with current_user id to scheduler 
-	if scheduler.get_job(current_loggedin) is None:
-		print('job added')
-		sys.stdout.flush()
-		scheduler.add_job(id=(current_loggedin), func=issa_challenge, args=(current_loggedin, True), trigger='interval',  minutes=3, max_instances=3, misfire_grace_time=None)
-		issa_challenge(current_loggedin, False)
-
-	print("The date next run time: " + str(scheduler.get_job(current_loggedin).next_run_time))
-	sys.stdout.flush()
+	if not current_user.get_started:
+		challenge_skip(current_user)
 
 	#get current user activity ( challenge )
 	activity = db.session.query(Activity).filter(Activity.user_id==current_user.uuid, Activity.current==True).first()
@@ -243,17 +122,16 @@ def profile():
 @login_required
 def activity_action():
 	action = request.form.get('action')
-	currentuser = str(current_user.uuid)
 
 	# user cliked the skip button
 	if action == 'skip':
 		# function to be executed 
-		issa_challenge(currentuser, False)
+		challenge_skip(current_user)
 
 	# user clicked the done button
 	if action == 'done':
 		# function to be executed.
-		challenge_done(currentuser)
+		challenge_done(current_user)
 
 	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name, Tag.tagname ).filter(Activity.user_id==current_user.uuid, 
 		Activity.current==True,
