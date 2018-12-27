@@ -119,7 +119,8 @@ def issa_challenge(currentuser, job):
 			next_run = scheduler.get_job(currentuser).next_run_time
 			scheduler.modify_job(currentuser, next_run_time= next_run + datetime.timedelta(minutes = 2))
 
-	print('Executed')		
+	print('Executed')
+	sys.stdout.flush()		
 			
 # before request handler: redirect if not logged in .    
 @main.before_request
@@ -158,10 +159,6 @@ def home():
 		scheduler.add_job(id=(current_loggedin), func=issa_challenge, args=(current_loggedin, True), trigger='interval',  minutes=3, max_instances=3, misfire_grace_time=None)
 		issa_challenge(current_loggedin, False)
 
-	print("The date now: " + str(datetime.datetime.now()))
-	sys.stdout.flush()
-	print("The date uct now: " + str(datetime.datetime.utcnow()))
-	sys.stdout.flush()
 	print("The date next run time: " + str(scheduler.get_job(str(current_user.uuid)).next_run_time))
 	sys.stdout.flush()
 
