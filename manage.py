@@ -14,6 +14,7 @@ manager.add_command('db', MigrateCommand)
 def make_shell_context():
 	return dict(app=app )#, db=db)
 
+'''
 try:
 	if scheduler.state != 1:
 		scheduler.start()
@@ -21,7 +22,7 @@ try:
 except Exception as e:
 	print(e)
 	sys.stdout.flush()
-		
+'''		
 
 if __name__ == '__main__':
 	manager.run()
