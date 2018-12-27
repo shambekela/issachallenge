@@ -152,10 +152,6 @@ def delete_account():
 	#user = User.query.filter_by()
 	currentuser = str(current_user.uuid)
 
-	# remove users job from scheduler
-	if scheduler.get_job(currentuser):
-		scheduler.remove_job(id=currentuser)
-
 	# clear user session and logout
 	session.clear()
 	logout_user
