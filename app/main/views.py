@@ -57,6 +57,7 @@ def challenge_done(currentuser):
 # function that runs every 24 hours or on skip
 def issa_challenge(currentuser, job):
 	app = scheduler.app
+	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
 	with app.app_context():
 
 		random_challenge = None
