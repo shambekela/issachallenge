@@ -39,11 +39,9 @@ def create_app(config_name):
 		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()
-		try:
-			scheduler.add_job(id=str('issa-challenge-job'), func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
-		except Exception as e:
-			pass
-			
+		job_id = 'issa-challenge-job'
+		if scheduler.get_job(id=job_id) is None:
+			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
 		print(scheduler.get_jobs())
 		sys.stdout.flush()
 
