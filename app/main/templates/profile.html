@@ -19,7 +19,7 @@
 							<p>	<img src="{{ current_user.avatar }}" alt="User Avatar" class="useravatar"></p>
 						</div>
 						<div class="col-auto mt-4">
-							<p>Joined {{ moment( current_user.dateJoined, local=False).fromNow() }}</p>
+							<p>Joined {{ moment(current_user.dateJoined).fromNow() }}</p>
 							<p>Completed {{ current_user.challenge_completed() }} challenges <span><a href="{{ url_for('main.dashboard') }}" class="small text-info"></a></span></p>
 						</div>
 					</div>
