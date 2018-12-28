@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager, current_user
 from flask_apscheduler import APScheduler
-import sys, socket
+import sys, socket, os
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
@@ -35,7 +35,7 @@ def create_app(config_name):
 		print('already')
 		sys.stdout.flush()
 	else:
-		print('Added')
+		print('Added' + str(os.getpid()))
 		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()

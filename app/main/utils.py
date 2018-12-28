@@ -2,7 +2,7 @@ from app import scheduler, db
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag, Tracker
 from sparkpost import SparkPost
 from flask import current_app
-import sys, time, uuid, datetime, json, random
+import sys, time, uuid, datetime, json, random, os
 
 '''
 	function runs when challenge is done
@@ -154,6 +154,6 @@ def challenge_scheduler():
 				print("response: " + str(response))
 				sys.stdout.flush()
 			'''
-
+	print(os.getpid())
 	print('Scheduler Executed')
 	sys.stdout.flush()
