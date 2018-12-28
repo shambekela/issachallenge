@@ -66,7 +66,7 @@ def dashboard():
 	# stores num of inactive days
 	inactive = 0
 
-	today = datetime.datetime.now().date()
+	today = datetime.datetime.uctnow().date()
 	date_joined = current_user.dateJoined.date()
 
 	# num of days since joining
@@ -134,13 +134,11 @@ def activity_action():
 		# function to be executed.
 		challenge_done(current_user)
 
+	# load activity and pass it to javascript
 	activity = db.session.query(Activity.activity_id, Activity.timestamp, Challenge.name, Tag.tagname ).filter(Activity.user_id==current_user.uuid, 
 		Activity.current==True,
 		Challenge.cid == Activity.cid,
 		Challenge.c_tag == Tag.id).first()
-
-	print(activity)
-	sys.stdout.flush()
 
 	return jsonify(activity)
 
@@ -149,14 +147,14 @@ def activity_action():
 @main.route('/delete_account', methods=['POST', 'GET'])
 @login_required
 def delete_account():
-	#user = User.query.filter_by()
-	currentuser = str(current_user.uuid)
+	
+	currentuser = current_user.uuid
 
 	# clear user session and logout
 	session.clear()
 	logout_user
 
-	user = db.session.query(User).filter(User.uuid == int(currentuser)).first()
+	user = db.session.query(User).filter(User.uuid == currentuser).first()
 	db.session.delete(user)
 	db.session.commit()
 
@@ -169,8 +167,9 @@ def get_started():
 	# set getstarted status to True
 	user = db.session.query(User).filter(User.uuid == current_user.uuid).first()
 
+	# set to seen 
 	user.set_getStarted(True)
 
 	db.session.commit()
 
-	return 'a'
+	return 'done'
