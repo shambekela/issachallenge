@@ -30,7 +30,6 @@ def login():
 @api.route('/logout')
 @login_required
 def logout():
-	print(current_user.uuid)
 	logout_user()
 	session.clear()
 	return redirect(url_for('main.landing'))

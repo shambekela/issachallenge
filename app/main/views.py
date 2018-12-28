@@ -33,11 +33,11 @@ def home():
 	cur_process = os.getpid()
 	global process_id
 	session['process_id'] = process_id
-	if cur_process == session['process_id']:
+	if cur_process == session.get('process_id'):
 		print(scheduler.get_job('issa-challenge-job'))
 	else:
-		print('NOPE! RUNNING ON: ' + str(cur_process) +' NOT ' + str(session['process_id']))
-		
+		print('NOPE! RUNNING ON: ' + str(cur_process) +' NOT ' + str(process_id))
+
 	# store the current user_id
 	current_loggedin = str(current_user.uuid)
 
