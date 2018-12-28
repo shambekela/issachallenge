@@ -19,7 +19,7 @@ def before_request():
 	if current_user.is_authenticated and request.endpoint == 'main.landing':
 		return redirect(url_for('main.home'))
 
-@main.after_app_request
+@main.after_request
 def after_request(response):
 	for query in get_debug_queries():
 		print('Statement: ' + str(query.statement) + ' how long: ' +str(query.duration))
