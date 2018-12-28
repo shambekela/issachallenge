@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, process_id
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_bootstrap import Bootstrap
@@ -37,13 +37,13 @@ def create_app(config_name):
 		sys.stdout.flush()
 	else:
 		#print('Added' + str(os.getpid()))
+		process_id = os.getpid()
 		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()
 		job_id = 'issa-challenge-job'
 		if scheduler.get_job(id=job_id) is None:
 			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
-		session['process_id'] = os.getpid()
 		print(scheduler.get_jobs())
 		sys.stdout.flush()
 
