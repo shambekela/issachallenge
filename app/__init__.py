@@ -37,6 +37,7 @@ def create_app(config_name):
 		sys.stdout.flush()
 	else:
 		#print('Added' + str(os.getpid()))
+		global process_id
 		process_id = os.getpid()
 		sys.stdout.flush()
 		scheduler.init_app(app)
