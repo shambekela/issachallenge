@@ -31,7 +31,7 @@ def landing():
 def home():
 
 	cur_process = os.getpid()
-	global process_id
+	
 	if cur_process == process_id:
 		print(scheduler.get_job('issa-challenge-job'))
 	else:
