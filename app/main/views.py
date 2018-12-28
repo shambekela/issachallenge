@@ -67,8 +67,8 @@ def dashboard():
 	inactive = 0
 
 	today = datetime.datetime.utcnow().date()
-	print('utc: ' + datetime.datetime.utcnow())
-	print('Now: ' + datetime.datetime.now())
+	print('utc: ' + str(datetime.datetime.utcnow()))
+	print('Now: ' + str(datetime.datetime.now()))
 	sys.stdout.flush()
 	date_joined = current_user.dateJoined.date()
 
