@@ -13,7 +13,7 @@ moment = Moment()
 login_manager = LoginManager()
 scheduler = APScheduler()
 login_manager.session_protection = "strong"
-process_id = None
+login_manager.login_view = 'main.landing'
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -37,17 +37,11 @@ def create_app(config_name):
 		sys.stdout.flush()
 	else:
 		#print('Added' + str(os.getpid()))
-		global process_id
-		process_id = os.getpid()
-		print('RUNNING ON: ' + str(process_id))
-		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()
 		job_id = 'issa-challenge-job'
 		if scheduler.get_job(id=job_id) is None:
 			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
-		print(scheduler.get_jobs())
-		sys.stdout.flush()
 
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint
