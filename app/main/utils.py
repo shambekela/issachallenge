@@ -96,12 +96,10 @@ def challenge_scheduler():
 	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
 	with app.app_context():
 
-		for user in db.session.query(User.uuid, Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
+		for user in db.session.query(User.uuid, User.username,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			random_challenge = None
 			print(user)
 			currentuser = user.uuid
-			print(user.username)
-			print(user.last_activity)
 
 			# generates new random challenge
 			while True:
