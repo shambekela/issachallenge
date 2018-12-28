@@ -1,11 +1,10 @@
 from . import main
-from app import scheduler, db, moment
+from app import scheduler, db, moment, process_id
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
 from flask_login import current_user, login_required, logout_user
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
-import os
 from sparkpost import SparkPost
-import sys, time, uuid, datetime, json, random
+import sys, time, uuid, datetime, json, random, os
 from app.main.utils import challenge_done, challenge_skip
 
 
@@ -31,6 +30,11 @@ def landing():
 @login_required
 def home():
 
+	cur_process = os.getpid()
+	if cur_process == process_id:
+		print(scheduler.get_job('issa-challenge-job'))
+	else:
+		print('NOPE! RUNNING ON: ' + cur_process)
 	# store the current user_id
 	current_loggedin = str(current_user.uuid)
 

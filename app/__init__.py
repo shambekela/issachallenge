@@ -13,6 +13,7 @@ moment = Moment()
 login_manager = LoginManager()
 scheduler = APScheduler()
 login_manager.session_protection = "strong"
+process_id = None
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -35,7 +36,8 @@ def create_app(config_name):
 		print('already')
 		sys.stdout.flush()
 	else:
-		print('Added' + str(os.getpid()))
+		#print('Added' + str(os.getpid()))
+		process_id = os.getpid()
 		sys.stdout.flush()
 		scheduler.init_app(app)
 		scheduler.start()
