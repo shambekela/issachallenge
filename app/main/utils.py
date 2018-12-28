@@ -1,5 +1,5 @@
 from app import scheduler, db
-from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
+from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag, Tracker
 from sparkpost import SparkPost
 from flask import current_app
 import sys, time, uuid, datetime, json, random
@@ -100,6 +100,7 @@ def challenge_scheduler():
 			random_challenge = None
 			currentuser = user.uuid
 			print(user.username)
+			print(user.user_tracker.last_activity)
 
 			# generates new random challenge
 			while True:

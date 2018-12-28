@@ -5,7 +5,7 @@ from requests_oauthlib import OAuth2Session
 from requests.exceptions import HTTPError
 from config import Auth
 from app import db
-from app.models import User
+from app.models import User, Tracker
 import json
 import uuid
 
@@ -65,9 +65,12 @@ def callback():
 			email = user_data['email']
 			user = User.query.filter_by(email=email).first()
 			if user is None:
+				uud = (uuid.uuid4().int & (1<<29)-1)
 				user = User()
 				user.email = email
-				user.uuid = (uuid.uuid4().int & (1<<29)-1)
+				user.uuid = uud
+				tracker = Tracker(uuid=uud)
+				user.tracker.append(tracker)
 			else:
 				# tracks number of logins
 				user.numOfLogins = user.numOfLogins + 1

@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
 	numOfLogins = db.Column(db.Integer, default=1)
 	receiveEmail = db.Column(db.Boolean, default=True)
 	users = db.relationship('Activity', backref='user', cascade="all, delete", lazy=False)
+	tracker = db.relationship('Tracker', backref='user_tracker', cascade="all, delete", lazy=False)
 	get_started = db.Column(db.Boolean, default=False)
 
 	# set getstarted modal seen
@@ -96,6 +97,11 @@ class Quote(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	content = db.Column(db.String(250), unique=True)
 	author = db.Column(db.String(250), nullable=False)
+
+class Tracker(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	uuid = db.Column(db.BigInteger,db.ForeignKey('user.uuid', ondelete="CASCADE"), unique=True, index=True)
+	last_activity = db.Column(db.DateTime, default=datetime.utcnow())
 
 @login_manager.user_loader
 def load_user(user_id):
