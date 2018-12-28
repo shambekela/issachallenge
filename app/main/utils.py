@@ -154,6 +154,5 @@ def challenge_scheduler():
 				print("response: " + str(response))
 				sys.stdout.flush()
 			'''
-	print(os.getpid())
 	print('Scheduler Executed')
 	sys.stdout.flush()
