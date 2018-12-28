@@ -20,10 +20,11 @@ def before_request():
 		return redirect(url_for('main.home'))
 
 @main.after_app_request
-def after_request():
+def after_request(response):
 	for query in get_debug_queries:
 		print(query)
 		sys.stdout.flush()
+	return response	
 	
 
 
