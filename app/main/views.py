@@ -21,8 +21,9 @@ def before_request():
 
 @main.after_app_request
 def after_request(response):
-	for query in get_debug_queries:
-		print(query)
+	for query in get_debug_queries():
+		print('Statement: ' + str(query.statement) + ' how long: ' +str(query.duration))
+		print(str(query))
 		sys.stdout.flush()
 	return response	
 	
