@@ -66,7 +66,9 @@ def dashboard():
 	# stores num of inactive days
 	inactive = 0
 
-	today = datetime.datetime.uctnow().date()
+	today = datetime.datetime.utcnow().date()
+	print(today)
+	sys.stdout.flush()
 	date_joined = current_user.dateJoined.date()
 
 	# num of days since joining
