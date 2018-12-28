@@ -1,4 +1,4 @@
-from flask import Flask, process_id
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_bootstrap import Bootstrap
