@@ -108,7 +108,12 @@ def challenge_scheduler():
 			date_now = datetime.datetime.utcnow()
 			print(date_now)
 			diff = last_activity - date_now
-			print('Diff: ' + str(diff))
+			print('Diff last vs now: ' + str(diff))
+			print(diff.total_seconds())
+			print('boom')
+			diff1 = date_now - last_activity
+			print('Diff now vs last: ' + str(diff1))
+			print(diff1.total_seconds())
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
