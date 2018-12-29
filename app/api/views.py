@@ -6,8 +6,7 @@ from requests.exceptions import HTTPError
 from config import Auth
 from app import db
 from app.models import User, Tracker
-import json
-import uuid
+import json, uuid, sys
 
 def get_google_auth(state=None, token=None):
 	if token:
