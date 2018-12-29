@@ -55,9 +55,12 @@
 	      <div class="modal-body">
 	        <div class="text-center">
 	        	<h3>Lets do this 🔥</h3>
-	        	<a class="btn btn-outline-primary" href="{{ url_for('api.login') }}">
-	        	<img src="{{ url_for('main.static', filename='assets/google.svg') }}"> Continue with Google
-	        </a>
+	        	<form action="{{ url_for('api.login') }}" method="POST" >
+	        		<input type="hidden" name="timezone" id="timezone">
+	        		<button type="submit" class="btn btn-outline-primary">
+			        	<img src="{{ url_for('main.static', filename='assets/google.svg') }}"> Continue with Google
+			        </button>
+	        	</form>
 	        </div>
 	      </div>
 	      <div class="modal-body text-center">
@@ -86,5 +89,10 @@
 				});
 			}, 5000)
 		});
+
+		(function(){
+			var offset = new Date().getTimezoneOffset();
+			$('#timezone').val(offset)
+		}())
 	</script>
 {% endblock scripts %}

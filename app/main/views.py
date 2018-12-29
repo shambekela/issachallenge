@@ -50,7 +50,6 @@ def home():
 	# set quote to be served to the user
 	quote = db.session.query(Quote).all()[dayofweek]
 
-
 	return render_template('home.html', activity=activity, quote=quote)
 
 
@@ -65,10 +64,7 @@ def dashboard():
 	# stores num of inactive days
 	inactive = 0
 
-	today = datetime.datetime.utcnow().date()
-	print('utc: ' + str(datetime.datetime.utcnow()))
-	print('Now: ' + str(datetime.datetime.now()))
-	sys.stdout.flush()
+	new_off = int(current_user.timezoneoffset) * -1
 	date_joined = current_user.dateJoined.date()
 
 	# num of days since joining
@@ -80,9 +76,9 @@ def dashboard():
 		dates.append(date_range)
 
 	# activity stats
-	act_query = db.session.query(db.func.DATE(Activity.timestamp).label("act_date") , 
+	act_query = db.session.query(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)).label("act_date") , 
 								  Activity.chal_status, 
-								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp)))
+								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off))))
 	# get all activities 
 	activities = act_query.all()
 

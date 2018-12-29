@@ -102,7 +102,7 @@ def challenge_scheduler():
 	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
 	with app.app_context():
 
-		for user in db.session.query(User.uuid, User.username,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
+		for user in db.session.query(User.uuid, User.username, User.receiveEmail,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			random_challenge = None
 			print(user)
 			currentuser = user.uuid
@@ -125,10 +125,6 @@ def challenge_scheduler():
 			# generates a unique id for activity.
 			activityid = (uuid.uuid4().int & (1<<29)-1)
 
-			# email credentials
-			sparkpostkey = current_app.config['SPARKPOST_KEY']
-			sparkpostemail = current_app.config['SPARKPOST_EMAIL']
-
 			#delete current activity
 			db.session.query(Activity).filter(
 				Activity.chal_status != 2, 
@@ -146,21 +142,8 @@ def challenge_scheduler():
 			db.session.commit()
 
 			# send new activity email
-			'''
-			user = db.session.query(User).filter(User.uuid== int(currentuser)).first()
-			email = user.email
-			if email and user.receiveEmail:
-				sp = SparkPost(sparkpostkey)
-				response = sp.transmissions.send(
-				text = 'New challenge - Issa challenge',	
-				recipients=[email],
-				html= render_template('email/challenge_notification.html'),
-				from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
-				subject='You have a new challenge {}'.format(datetime.datetime.now().strftime('%dth %b %Y')))
-
-				print("response: " + str(response))
-				sys.stdout.flush()
-			'''
+			if user and user.receiveEmail:
+				send_email(user)
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
@@ -176,3 +159,23 @@ def update_last_activity(current_user):
 		tracker.update_last_activity(new_date)
 
 	db.session.commit()
+
+def send_email(user):
+	email = user.email
+	timezone = int(user.timezoneoffset) * -1
+	email_date = datetime.datetime.utcnow() + datetime.timedelta(minutes=timezone)
+
+	# email credentials
+	sparkpostkey = current_app.config['SPARKPOST_KEY']
+	sparkpostemail = current_app.config['SPARKPOST_EMAIL']
+
+	sp = SparkPost(sparkpostkey)
+	response = sp.transmissions.send(
+	text = 'New challenge - Issa challenge',	
+	recipients=[email],
+	html= render_template('email/challenge_notification.html'),
+	from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
+	subject='You have a new challenge {}'.format(email_date.strftime('%dth %b %Y'))
+
+	print("response: " + str(response))
+	sys.stdout.flush()

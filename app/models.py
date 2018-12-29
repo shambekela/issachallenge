@@ -1,6 +1,6 @@
 from . import db, login_manager, scheduler
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # tables stores user account data and related info.
 class User(UserMixin, db.Model):
@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
 	uuid = db.Column(db.Integer, unique=True ,index=True)
 	username = db.Column(db.String(255), unique=True, nullable=False)
 	email = db.Column(db.String(255), unique=True)
-	dateJoined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+	dateJoined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	avatar = db.Column(db.String(200))
 	tokens = db.Column(db.Text)
 	numOfLogins = db.Column(db.Integer, default=1)
@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
 	users = db.relationship('Activity', backref='user', cascade="all, delete", lazy=False)
 	tracker = db.relationship('Tracker', backref='user_tracker', cascade="all, delete", lazy=False)
 	get_started = db.Column(db.Boolean, default=False)
+	timezoneoffset = db.Column(db.Numeric(12,2), default=0)
 
 	# set getstarted modal seen
 	def set_getStarted(self, seen):
@@ -49,7 +50,6 @@ class User(UserMixin, db.Model):
 
 		return activities
 
-
 # stores all challenges.
 class Challenge(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +69,7 @@ class Activity(db.Model):
 	activity_id = db.Column(db.BigInteger, unique=True, index=True)
 	cid = db.Column(db.BigInteger, db.ForeignKey('challenge.cid', ondelete="CASCADE"))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.uuid', ondelete="CASCADE"))
-	timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 	end_date = db.Column(db.DateTime, nullable=True)
 	current = db.Column(db.Boolean, default=True) # stores if this is the current user challenge.
 	chal_status = db.Column(db.Integer, db.ForeignKey('challenge_status.id', ondelete="CASCADE"), default=0) # status of this challenge done not today etc.
@@ -101,7 +101,7 @@ class Quote(db.Model):
 class Tracker(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	uuid = db.Column(db.BigInteger,db.ForeignKey('user.uuid', ondelete="CASCADE"), unique=True, index=True)
-	last_activity = db.Column(db.DateTime, default=datetime.utcnow())
+	last_activity = db.Column(db.DateTime, default=datetime.utcnow)
 
 	def update_last_activity(self, new_date):
 		self.last_activity = new_date
