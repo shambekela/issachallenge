@@ -177,5 +177,5 @@ def send_email(user):
 	from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
 	subject='You have a new challenge {}'.format(email_date.strftime('%dth %b %Y'))
 
-	print("response: " + str(response))
+	print(response)
 	sys.stdout.flush()
