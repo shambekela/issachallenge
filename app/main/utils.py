@@ -102,7 +102,7 @@ def challenge_scheduler():
 	print('Name: ' + str(app) + ' Running: ' + str(scheduler.state))
 	with app.app_context():
 
-		for user in db.session.query(User.uuid, User.username, User.receiveEmail,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
+		for user in db.session.query(User.uuid, User.timezoneoffset, User.email, User.username, User.receiveEmail,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			random_challenge = None
 			print(user)
 			currentuser = user.uuid
