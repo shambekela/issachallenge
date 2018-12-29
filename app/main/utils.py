@@ -1,7 +1,7 @@
 from app import scheduler, db
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag, Tracker
 from sparkpost import SparkPost
-from flask import current_app
+from flask import current_app, render_template
 import sys, time, uuid, datetime, json, random, os
 
 '''
