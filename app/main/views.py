@@ -76,7 +76,8 @@ def dashboard():
 	# add date to dates array: from join till now 
 	for n in range(0, numOfDays.days+1):
 		date_range = today - datetime.timedelta(days=n)
-		print(date_range1)
+		print(date_range)
+		sys.stdout.flush()
 		dates.append(date_range)
 
 	# activity stats
