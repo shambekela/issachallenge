@@ -69,7 +69,7 @@ class Activity(db.Model):
 	activity_id = db.Column(db.BigInteger, unique=True, index=True)
 	cid = db.Column(db.BigInteger, db.ForeignKey('challenge.cid', ondelete="CASCADE"))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.uuid', ondelete="CASCADE"))
-	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+	timestamp = db.Column(db.DateTime, default=datetime.utcnow())
 	end_date = db.Column(db.DateTime, nullable=True)
 	current = db.Column(db.Boolean, default=True) # stores if this is the current user challenge.
 	chal_status = db.Column(db.Integer, db.ForeignKey('challenge_status.id', ondelete="CASCADE"), default=0) # status of this challenge done not today etc.

@@ -80,6 +80,7 @@
 																	<div class="activity-bar-container small">
 																		{% for activity in activities %}
 																			{% if (ddate == activity.act_date) %}
+																			{{ activity.act_date }}
 																			    {% if (activity.chal_status == 2) %}
 																					<div class="activity-bar" data-toggle="tooltip" data-placement="right" title="{{ activity.num_results }} {% if (activity.num_results >= 3) %} 🔥{% endif %}"></div>
 																				{% endif %}	
