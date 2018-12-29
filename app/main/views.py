@@ -68,10 +68,10 @@ def dashboard():
 	date_joined = current_user.dateJoined.date()
 
 	# get date time right now 
-	today = datetime.datetime.utcnow().date()
+	today = datetime.datetime.utcnow()
 
 	# num of days since joining
-	numOfDays = today - date_joined
+	numOfDays = today.date() - date_joined
 
 	# add date to dates array: from join till now 
 	for n in range(0, numOfDays.days+1):
