@@ -169,7 +169,7 @@ def challenge_scheduler():
 
 # update users last_activity timestamp
 def update_last_activity():
-	current_user = current_user.uuid
+	currentuser = current_user.uuid
 	tracker = db.session.query(Tracker).first()
 	new_date = datetime.datetime.utcnow()
 
