@@ -74,7 +74,7 @@ def dashboard():
 	numOfDays = today - date_joined
 
 	# add date to dates array: from join till now 
-	for n in range(0, numOfDays.days+1):
+	for n in range(0, numOfDays.days):
 		date_range = today - datetime.timedelta(days=n)
 		dates.append(date_range)
 
