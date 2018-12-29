@@ -22,6 +22,8 @@ def login():
 
 	timezone = request.form.get('timezone')
 	session['timezone'] = str(timezone)
+	print(session['timezone'])
+	sys.stdout.flush()
 
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
