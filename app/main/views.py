@@ -92,7 +92,7 @@ def dashboard():
 
 	# gets the days between today and last completed activity.
 	if last_completed:
-		inactive = (today - last_completed.act_date).days
+		inactive = (today.date() - last_completed.act_date).days
 
 	return render_template('dashboard.html', activities=activities, dates=dates, inactivedays=inactive)
 
