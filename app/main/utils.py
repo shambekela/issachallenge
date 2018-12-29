@@ -3,11 +3,12 @@ from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag, T
 from sparkpost import SparkPost
 from flask import current_app
 import sys, time, uuid, datetime, json, random, os
+from flask_login import current_user
 
 '''
 	function runs when challenge is done
 '''
-def challenge_done(current_user):
+def challenge_done():
 	random_challenge = None
 	currentuser = current_user.uuid
 	# generates new random challeng
@@ -53,7 +54,7 @@ def challenge_done(current_user):
 	sys.stdout.flush()
 
 ''' runs when users skips a challenge'''
-def challenge_skip(current_user):
+def challenge_skip():
 
 	random_challenge = None
 	currentuser = current_user.uuid
@@ -161,8 +162,9 @@ def challenge_scheduler():
 				print("response: " + str(response))
 				sys.stdout.flush()
 			'''
-	# update last activity
-	update_last_activity()
+
+		# update last activity
+		update_last_activity()
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
