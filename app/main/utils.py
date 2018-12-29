@@ -142,8 +142,10 @@ def challenge_scheduler():
 			db.session.commit()
 
 			# send new activity email
+			'''
 			if user and user.receiveEmail:
 				send_email(user)
+			'''
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
