@@ -1,5 +1,5 @@
 from . import main
-from app import scheduler, db, moment, process_id
+from app import scheduler, db, moment
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
 from flask_login import current_user, login_required, logout_user
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
