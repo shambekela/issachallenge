@@ -46,6 +46,9 @@ def challenge_done(current_user):
 	db.session.add(active)
 	db.session.commit()
 
+	# update user last activity
+	update_last_activity()
+
 	print('Done execute')
 	sys.stdout.flush()
 
@@ -87,6 +90,9 @@ def challenge_skip(current_user):
 	db.session.add(active)
 	db.session.commit()
 
+	# update the user last activity.
+	update_last_activity()
+
 	print('Skip executed')
 	sys.stdout.flush()		
 
@@ -98,6 +104,7 @@ def challenge_scheduler():
 
 		for user in db.session.query(User.uuid, User.username,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			random_challenge = None
+			print(user)
 			currentuser = user.uuid
 
 			# generates new random challenge
@@ -154,5 +161,20 @@ def challenge_scheduler():
 				print("response: " + str(response))
 				sys.stdout.flush()
 			'''
+	# update last activity
+	update_last_activity()
+
 	print('Scheduler Executed')
 	sys.stdout.flush()
+
+# update users last_activity timestamp
+def update_last_activity():
+	current_user = current_user.uuid
+	tracker = db.session.query(Tracker).first()
+	new_date = datetime.datetime.utcnow()
+
+	# update the users last activity.
+	if tracker is not None:
+		tracker.update_last_activity(new_date)
+
+	db.session.commit()

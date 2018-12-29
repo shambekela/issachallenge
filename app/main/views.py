@@ -1,12 +1,11 @@
 from . import main
-from app import scheduler, db, moment
+from app import scheduler, db, moment, process_id
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
 from flask_login import current_user, login_required, logout_user
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
 from sparkpost import SparkPost
 import sys, time, uuid, datetime, json, random, os
 from app.main.utils import challenge_done, challenge_skip
-from flask_sqlalchemy import get_debug_queries
 
 
 # before request handler: redirect if not logged in .    
@@ -18,15 +17,6 @@ def before_request():
 
 	if current_user.is_authenticated and request.endpoint == 'main.landing':
 		return redirect(url_for('main.home'))
-
-@main.after_request
-def after_request(response):
-	for query in get_debug_queries():
-		print('Statement: ' + str(query.statement) + ' how long: ' +str(query.duration))
-		print(str(query))
-		sys.stdout.flush()
-	return response	
-	
 
 
 # landing page 

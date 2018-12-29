@@ -103,6 +103,9 @@ class Tracker(db.Model):
 	uuid = db.Column(db.BigInteger,db.ForeignKey('user.uuid', ondelete="CASCADE"), unique=True, index=True)
 	last_activity = db.Column(db.DateTime, default=datetime.utcnow())
 
+	def update_last_activity(self, new_date):
+		self.last_activity = new_date
+
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
