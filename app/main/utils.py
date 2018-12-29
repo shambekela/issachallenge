@@ -106,14 +106,54 @@ def challenge_scheduler():
 			last_activity = user.last_activity
 			print(last_activity)
 			date_now = datetime.datetime.utcnow()
-			print(date_now)
-			diff = last_activity - date_now
-			print('Diff last vs now: ' + str(diff))
-			print(diff.total_seconds())
-			print('boom')
-			diff1 = date_now - last_activity
-			print('Diff now vs last: ' + str(diff1))
-			print(diff1.total_seconds())
+			diff = abs((last_activity - date_now).total_seconds())/60
+			print(diff)
+			if diff.minutes > 10:
+				random_challenge = None
+				print(user)
+				currentuser = user.uuid
+
+				# generates new random challenge
+				while True:
+					query = db.session.query(Challenge.cid)
+					challenges = query.all()
+
+					# random challenge
+					random_challenge = random.choice(challenges)
+
+					activity = db.session.query(Activity.cid).filter(
+						Activity.user_id == currentuser, 
+						Activity.cid == random_challenge.cid).first()
+					
+					if activity is None:
+						break
+
+				# generates a unique id for activity.
+				activityid = (uuid.uuid4().int & (1<<29)-1)
+
+				#delete current activity
+				db.session.query(Activity).filter(
+					Activity.chal_status != 2, 
+					Activity.user_id == currentuser).delete()
+			
+
+				# add a new activity for this user.
+				active = Activity(activity_id=activityid, 
+								  cid=random_challenge.cid,
+								  user_id=int(currentuser),
+								  current=True,
+								  chal_status=4)
+
+				db.session.add(active)
+				db.session.commit()
+
+				# send new activity email
+				'''
+				if user and user.receiveEmail:
+					send_email(user)
+				'''
+			else:
+				print('not yet')
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
