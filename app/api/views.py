@@ -21,8 +21,6 @@ def login():
 
 	timezone = request.form.get('timezone')
 	session['timezone'] = str(timezone)
-	print(session['timezone'])
-	sys.stdout.flush()
 
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
@@ -81,7 +79,11 @@ def callback():
 
 			if session['timezone'] is not None:
 				# update the user timezone
-				user.timezoneoffset = float(session['timezone'])
+				user.timezoneoffset = int(session['timezone'])
+
+			print(session['timezone'])
+			sys.stdout.flush()
+				
 			user.username = user_data['family_name']
 			user.tokens = json.dumps(token)
 			user.avatar = user_data['picture'] 
