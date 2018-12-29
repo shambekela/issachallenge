@@ -175,7 +175,7 @@ def send_email(user):
 	recipients=[email],
 	html= render_template('email/challenge_notification.html'),
 	from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
-	subject='You have a new challenge {}'.format(email_date.strftime('%dth %b %Y'))
+	subject='You have a new challenge {}'.format(email_date.strftime('%dth %b %Y')))
 
 	print(response)
 	sys.stdout.flush()
