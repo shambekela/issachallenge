@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+	{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %} {{ super() }} {% endblock title %}
 
@@ -74,7 +74,7 @@
 																		<span class="font-weight-bold small"> 
 																			
 																			{{ moment(ddate[0]).format("MMM Do YYYY") }}
-																			<div class="d-md-block d-sm-block d-block"> {{ moment(ddate[0]).format('dddd') }}</div>
+																			<div class="d-md-block d-sm-block d-block"> {{ moment(ddate[0]).format('dddd') }} </div>
 																		</span>
 																	</div>
 																	<div class="activity-bar-container small">
