@@ -77,14 +77,12 @@ def dashboard():
 	for n in range(0, numOfDays.days+1):
 		date_range = today - datetime.timedelta(days=n)
 		dates.append((date_range, date_range.date()))
-
-	print(dates)
-	sys.stdout.flush()
+		print(date_range)
 
 	# activity stats
 	act_query = db.session.query(db.func.DATE(Activity.timestamp).label("act_date") , 
 								  Activity.chal_status, 
-								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off))))
+								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp)))
 	# get all activities 
 	activities = act_query.all()
 
