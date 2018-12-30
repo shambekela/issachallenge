@@ -106,7 +106,7 @@ function new_activity(response, action){
 	
 	$('.activity-timestamp').text(moment(response[1]).format('dddd, Do MMM YYYY'));
 	$('.activity-challenge').text(response[2]);
-	$('.activity-tag').text(response[3]);
+	$('.activity-tag').text(" "+response[3]);
 
 	timer = setTimeout(function(args) {
 		$('.challenge-loader').addClass('d-none');
