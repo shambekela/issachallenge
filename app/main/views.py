@@ -65,10 +65,10 @@ def dashboard():
 	inactive = 0
 
 	new_off = int(current_user.timezoneoffset) * -1
-	date_joined = current_user.dateJoined.date()
+	date_joined = current_user.dateJoined.date() + datetime.timedelta(minutes=new_off)
 
 	# get date time right now 
-	today = datetime.datetime.utcnow()
+	today = datetime.datetime.utcnow() + datetime.timedelta(minutes=new_off)  
 
 	# num of days since joining
 	numOfDays = today.date() - date_joined
@@ -80,9 +80,9 @@ def dashboard():
 		print(date_range)
 
 	# activity stats
-	act_query = db.session.query(db.func.DATE(Activity.timestamp).label("act_date") , 
+	act_query = db.session.query(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes=new_off)).label("act_date") , 
 								  Activity.chal_status, 
-								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp)))
+								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes=new_off)), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes=new_off))))
 	# get all activities 
 	activities = act_query.all()
 
