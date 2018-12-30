@@ -73,13 +73,13 @@
 																	<div class="activity-bar-date">
 																		<span class="font-weight-bold small"> 
 																			
-																			{{ moment(ddate).format("MMM Do YYYY") }}
-																			<div class="d-md-block d-sm-block d-block"> {{ moment(ddate).format('dddd') }}</div>
+																			{{ moment(ddate[0]).format("MMM Do YYYY") }}
+																			<div class="d-md-block d-sm-block d-block"> {{ moment(ddate[0]).format('dddd') }}</div>
 																		</span>
 																	</div>
 																	<div class="activity-bar-container small">
 																		{% for activity in activities %}
-																			{% if (ddate == activity.act_date) %}
+																			{% if (ddate[1] == activity.act_date) %}
 																			    {% if (activity.chal_status == 2) %}
 																					<div class="activity-bar" data-toggle="tooltip" data-placement="right" title="{{ activity.num_results }} {% if (activity.num_results >= 3) %} 🔥{% endif %}"></div>
 																				{% endif %}	

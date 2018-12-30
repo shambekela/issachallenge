@@ -76,9 +76,10 @@ def dashboard():
 	# add date to dates array: from join till now 
 	for n in range(0, numOfDays.days+1):
 		date_range = today - datetime.timedelta(days=n)
-		print(date_range)
-		sys.stdout.flush()
-		dates.append(date_range)
+		dates.append((date_range, date_range.date()))
+
+	print(dates)
+	sys.stdout.flush()
 
 	# activity stats
 	act_query = db.session.query(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)).label("act_date") , 
