@@ -111,7 +111,7 @@
 																<div class="col-lg-11">
 																	<div class="text-success">
 																		<i class="far fa-check-circle"></i>
-																		<small>{{ moment(activity.timestamp).format('dddd, Do MMM YYYY') }}</small>
+																		<small>{{ moment(activity.timestamp, local=False).format('dddd, Do MMM YYYY') }}</small>
 																	</div>
 
 																	<div>
