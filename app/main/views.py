@@ -84,7 +84,8 @@ def dashboard():
 	# activity stats
 	act_query = db.session.query(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)).label("act_date") , 
 								  Activity.chal_status, 
-								  db.func.count(Activity.chal_status).label("num_results")).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off))))
+								  db.func.count(Activity.chal_status).label("num_results"),
+								  db.func.DATE(Activity.timestamp).label('utc_act_date')).filter(Activity.user_id == current_user.uuid, Activity.chal_status == 2).group_by(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off)), Activity.chal_status).order_by(db.desc(db.func.DATE(Activity.timestamp + datetime.timedelta(minutes= new_off))))
 	# get all activities 
 	activities = act_query.all()
 
@@ -93,7 +94,7 @@ def dashboard():
 
 	# gets the days between today and last completed activity.
 	if last_completed:
-		inactive = (today.date() - last_completed.act_date).days
+		inactive = (today.date() - last_completed.utc_act_date).days
 
 	return render_template('dashboard.html', activities=activities, dates=dates, inactivedays=inactive)
 
