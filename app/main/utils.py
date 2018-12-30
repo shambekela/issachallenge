@@ -76,7 +76,6 @@ def challenge_skip(current_user):
 	# generates a unique id for activity.
 	activityid = (uuid.uuid4().int & (1<<29)-1)
 
-
 	#delete current activity
 	db.session.query(Activity).filter(Activity.chal_status != 2, Activity.user_id == currentuser).delete()
 
@@ -104,7 +103,7 @@ def challenge_scheduler():
 
 		for user in db.session.query(User.uuid, User.timezoneoffset, User.email, User.username, User.receiveEmail,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			last_activity = user.last_activity
-			print(last_activity)
+			print('Last activity: '+ str(last_activity))
 			date_now = datetime.datetime.utcnow()
 			diff = abs((last_activity - date_now).total_seconds())/60
 			print(diff)
@@ -161,7 +160,7 @@ def challenge_scheduler():
 # update users last_activity timestamp
 def update_last_activity(current_user):
 	currentuser = current_user
-	tracker = db.session.query(Tracker).first()
+	tracker = db.session.query(Tracker).filter(Tracker.uuid == currentuser).first()
 	new_date = datetime.datetime.utcnow()
 
 	# update the users last activity.
@@ -170,6 +169,7 @@ def update_last_activity(current_user):
 
 	db.session.commit()
 
+''' send email to user '''
 def send_email(user):
 	email = user.email
 	timezone = int(user.timezoneoffset) * -1
