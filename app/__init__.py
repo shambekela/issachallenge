@@ -34,13 +34,13 @@ def create_app(config_name):
 		sock.bind(("127.0.0.1", 47200))
 	except socket.error:
 		print('already')
-		scheduler.remove_all_jobs()
 		sys.stdout.flush()
 	else:
 		#print('Added' + str(os.getpid()))
 		scheduler.init_app(app)
 		scheduler.start()
 		job_id = 'issa-challenge-job'
+		scheduler.remove_job(job_id)
 		if scheduler.get_job(id=job_id) is None:
 			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  hours=1, max_instances=3, misfire_grace_time=None)
 		print(scheduler.get_job(id=job_id))
