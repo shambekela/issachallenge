@@ -34,6 +34,7 @@ def create_app(config_name):
 		sock.bind(("127.0.0.1", 47200))
 	except socket.error:
 		print('already')
+		scheduler.remove_all_jobs()
 		sys.stdout.flush()
 	else:
 		#print('Added' + str(os.getpid()))
