@@ -1,5 +1,29 @@
 (function(){
 
+	$('#doneModalLong').off('shown.bs.modal').on('shown.bs.modal', function(e){
+			var animationEnd = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+			var animationName = 'animated bounceIn'
+			var element = '#doneModalLong'
+			var today = new Date();
+
+			// randomly generated icon
+			icons = ['🏆', 
+					 '🥇',					 
+					 '🔥',
+					 '🥇',
+					 '🔥',
+					 '🎖',
+					 '🔥']
+			console.log(icons.length)
+			var item = icons[today.getDay()];
+			$('.done-icon').html(item)
+
+			// animation on done modal
+			$(element).addClass(animationName).one(animationEnd, function(event) {
+				$(element).removeClass(animationName)
+			});
+		})
+
 	// action is taken on a challenge
 	$('.activity-action-btn').on('click', function(event) {
 		event.preventDefault();
@@ -36,31 +60,6 @@
 		})
 
 		// when done modal is shown 
-		$('#doneModalLong').off('shown.bs.modal').on('shown.bs.modal', function(e){
-			var animationEnd = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
-			var animationName = 'animated bounceIn'
-			var element = '#doneModalLong'
-			var today = new Date();
-
-			// randomly generated icon
-			icons = ['🏆', 
-					 '🥇',					 
-					 '🔥',
-					 '🥇',
-					 '🔥',
-					 '🎖',
-					 '🔥']
-			console.log(icons.length)
-			var item = icons[today.getDay()];
-			$('.done-icon').html(item)
-
-			// animation on done modal
-			$(element).addClass(animationName).one(animationEnd, function(event) {
-				$(element).removeClass(animationName)
-			});
-
-		})
-
 		$('.modal').off('hide.bs.modal').on('hide.bs.modal', function (e) {
 
 		})
