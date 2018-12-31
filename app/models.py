@@ -50,6 +50,17 @@ class User(UserMixin, db.Model):
 
 		return activities
 
+	def user_done_challenges_today(self):
+		offset = int(self.timezoneoffset) * -1
+		today_date = (datetime.utcnow() + timedelta(minutes=offset)).date()
+
+		activities = db.session.query(Activity).filter(
+			Activity.user_id == self.uuid, 
+			Activity.chal_status == 2, 
+			db.func.DATE(Activity.timestamp + timedelta(minutes=offset)) == today_date).order_by(db.desc(Activity.timestamp)).all()
+		print(activities)
+		return activities
+
 # stores all challenges.
 class Challenge(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

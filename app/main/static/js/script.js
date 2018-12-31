@@ -43,13 +43,13 @@
 			var today = new Date();
 
 			// randomly generated icon
-			icons = ['<i class="far fa-star"></i>', 
-					 '<i class="fas fa-trophy"></i>',
-					 '<i class="fas fa-award"></i>',					 
-					 '<i class="fas fa-trophy"></i>',
-					 '<i class="far fa-star"></i>',
-					 '<i class="fas fa-shield-alt"></i>',
-					 '<i class="fas fa-award"></i>']
+			icons = ['🏆', 
+					 '🥇',					 
+					 '🔥',
+					 '🥇',
+					 '🔥',
+					 '🎖',
+					 '🔥']
 			console.log(icons.length)
 			var item = icons[today.getDay()];
 			$('.done-icon').html(item)
