@@ -40,7 +40,7 @@ def create_app(config_name):
 		scheduler.init_app(app)
 		scheduler.start()
 		job_id = 'issa-challenge-job'
-		scheduler.remove_job(job_id)
+		#scheduler.remove_job(job_id)
 		if scheduler.get_job(id=job_id) is None:
 			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  hours=1, max_instances=3, misfire_grace_time=None)
 		print(scheduler.get_job(id=job_id))
