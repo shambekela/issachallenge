@@ -119,5 +119,5 @@ function new_activity(response, action){
 			point = (parseInt($(el).text()) + 3);
 			$(el).text(point)
 		}
-	}, 1500)
+	}, 800)
 }

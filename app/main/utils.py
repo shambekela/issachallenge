@@ -106,9 +106,9 @@ def challenge_scheduler():
 			print('------------------')
 			print('Last activity: '+ str(last_activity))
 			date_now = datetime.datetime.utcnow()
-			diff = abs((last_activity - date_now).total_seconds())/60
+			diff = abs((last_activity - date_now).total_seconds())/3600
 			print(diff)
-			if diff > 10:
+			if diff >= 25:
 				random_challenge = None
 				print(user)
 				currentuser = user.uuid
