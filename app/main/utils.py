@@ -155,8 +155,6 @@ def challenge_scheduler():
 				if user and user.receiveEmail:
 					send_email(user)
 				'''
-			else:
-				print('not yet')
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
