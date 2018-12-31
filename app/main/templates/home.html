@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-7">
-				{% if current_user.get_started %}
+				{% if not current_user.get_started %}
 					<div class="bookmark m-auto">
 						<div class="alert alert-primary alert-dismissible fade show" role="alert">
 							<h6>Bookmark this app</h6>

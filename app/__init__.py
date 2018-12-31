@@ -41,7 +41,7 @@ def create_app(config_name):
 		scheduler.start()
 		job_id = 'issa-challenge-job'
 		if scheduler.get_job(id=job_id) is None:
-			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  minutes=2, max_instances=3, misfire_grace_time=None)
+			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  hours=1, max_instances=3, misfire_grace_time=None)
 
 	from .api import api as api_blueprint
 	from .main import main as main_blueprint
