@@ -148,7 +148,7 @@ def challenge_scheduler():
 				db.session.commit()
 
 				# update user last activity.
-				update_tracker(currentuser)
+				update_last_activity(currentuser)
 
 				# send new activity email
 				'''
