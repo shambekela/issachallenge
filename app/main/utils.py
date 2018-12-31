@@ -108,7 +108,7 @@ def challenge_scheduler():
 			date_now = datetime.datetime.utcnow()
 			diff = abs((last_activity - date_now).total_seconds())/60
 			print(diff)
-			if diff > 4:
+			if diff > 10:
 				random_challenge = None
 				print(user)
 				currentuser = user.uuid
@@ -151,10 +151,9 @@ def challenge_scheduler():
 				update_last_activity(currentuser)
 
 				# send new activity email
-				'''
+				
 				if user and user.receiveEmail:
 					send_email(user)
-				'''
 
 	print('Scheduler Executed')
 	sys.stdout.flush()
