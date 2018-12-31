@@ -4,7 +4,7 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 class Auth:
-	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID') 
+	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
 	CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 	REDIRECT_URI = 'https://www.issachallenge.fun/gCallback'
 	AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'

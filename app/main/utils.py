@@ -103,11 +103,12 @@ def challenge_scheduler():
 
 		for user in db.session.query(User.uuid, User.timezoneoffset, User.email, User.username, User.receiveEmail,Tracker.last_activity).filter(User.uuid == Tracker.uuid ).all():
 			last_activity = user.last_activity
+			print('------------------')
 			print('Last activity: '+ str(last_activity))
 			date_now = datetime.datetime.utcnow()
 			diff = abs((last_activity - date_now).total_seconds())/60
 			print(diff)
-			if diff > 10:
+			if diff > 4:
 				random_challenge = None
 				print(user)
 				currentuser = user.uuid
@@ -134,7 +135,7 @@ def challenge_scheduler():
 				db.session.query(Activity).filter(
 					Activity.chal_status != 2, 
 					Activity.user_id == currentuser).delete()
-			
+
 
 				# add a new activity for this user.
 				active = Activity(activity_id=activityid, 
@@ -145,6 +146,9 @@ def challenge_scheduler():
 
 				db.session.add(active)
 				db.session.commit()
+
+				# update user last activity.
+				update_tracker(currentuser)
 
 				# send new activity email
 				'''

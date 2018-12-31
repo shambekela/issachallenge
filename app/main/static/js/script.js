@@ -15,7 +15,8 @@
 		
 		// send ajax request to activity_action controller. 
 		$('.challenge-loader').removeClass('d-none')
-		$('.challenge-card').addClass('d-none').removeClass('animated fast zoomIn delay-0.5s') 
+		$('.challenge-card').addClass('d-none').removeClass('animated fast zoomIn delay-0.5s')
+		$('.current-challenge-header').addClass('d-none')
 		
 		$.ajax({
 			url: '/activity_action',
@@ -111,6 +112,7 @@ function new_activity(response, action){
 	timer = setTimeout(function(args) {
 		$('.challenge-loader').addClass('d-none');
 		$('.challenge-card').removeClass('d-none').addClass('animated fast zoomIn delay-0.5s');
+		$('.current-challenge-header').removeClass('d-none');
 
 		if(action == 'done'){
 			el = '.header-point';
