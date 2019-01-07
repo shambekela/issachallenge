@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ super() }} Sign up {% endblock title %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('main.static', filename='css/auth.css') }}" crossorigin="anonymous">
+{% endblock head %}
+
+{% block header %}
+	<div class="container">
+    	<div class="row ">
+			<div class="col-md-4 m-auto pt-3">
+				<div class="d-flex justify-content-center">
+		      		<img style="width: 35px; height: 100%;" src="{{ url_for('main.static', filename='assets/warrior.png') }}">
+			      	<h3 class="font-weight-normal pt-3"><a href="{{ url_for('main.landing')}}" class="text-dark issa-header-bold">Issa challenge</a></h3>
+		      	</div>
+			</div>
+		</div>			  	  
+    </div>
+{% endblock header %}
+
+{% block main %}
+	{{ super() }}
+    <div class="container">
+	    <div class="row m-auto justify-content-center pt-4">
+	    	<div class="col-md-6">
+	    		<div class="card m-auto">
+	    			<div class="card-body">
+	    				<p class="auth-page-heading h4 text-muted issa-header">Sign up for Issa challenge 🔥</p>
+	    				<hr>
+	    				<form method="POST", action="{{ url_for('auth.register')}}">
+	    					{{ form.hidden_tag() }}
+							{{ wtf.form_errors(form, hiddens="only")}}
+							{{ wtf.form_field(form.email) }}
+							{{ wtf.form_field(form.username) }}
+							{{ wtf.form_field(form.password) }}
+							{{ wtf.form_field(form.submit, class='btn btn-primary btn-block') }}
+	    				</form>
+	    				<p class="text-center mt-2 mb-0 issa-header-bold small">OR</p>
+	    				<form class="pt-2" action="{{ url_for('api.login') }}" method="POST" >
+			        		<input type="hidden" name="timezone" id="timezone_google">
+			        		<button type="submit" class="btn btn-block btn-outline-primary">
+					        	<img class="" src="{{ url_for('main.static', filename='assets/google.svg') }}"> Sign up with Google
+					        </button>
+			        	</form>
+	                </div>
+	                <div class="card-body pt-1">
+	                	<p class="issa-header">💡 Already have an account ? <a href="{{ url_for('auth.login') }}">Log in.</a></p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+{% endblock main %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+    	
+    	(function(){
+			var offset = new Date().getTimezoneOffset();
+			$('#timezone').val(offset);
+			$('#timezone_google').val(offset)
+		}())
+
+    </script>
+{% endblock scripts %}

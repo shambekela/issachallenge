@@ -86,8 +86,13 @@
 		})
 	});
 
+	$('#welcomeModal').on('hidden.bs.modal', function(event){
+		$('#secondWelcomeModal').modal('show');
+	})
+
 	// get started modal option
-	$('.get-started-button').on('click' , function(event) {
+	$('#secondWelcomeModal').on('hidden.bs.modal', function(event){
+		
 		event.preventDefault();
 
 		$.ajax({
@@ -96,9 +101,8 @@
 		})
 		.fail(function() {
 			location.reload()
-		});		
-	});
-
+		});	
+	})
 }())
 
 // function for loading new activity to the user.

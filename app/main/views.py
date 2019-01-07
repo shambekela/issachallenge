@@ -12,6 +12,9 @@ from app.main.utils import challenge_done, challenge_skip
 @main.before_request
 def before_request():
 
+	if current_user.is_authenticated and not current_user.confirmed and '/static/' not in request.path:
+		return redirect(url_for('auth.confirm_account'))
+
 	if not current_user.is_authenticated and request.endpoint != 'main.landing' and '/static/' not in request.path: 
 		return redirect(url_for('main.landing'))
 

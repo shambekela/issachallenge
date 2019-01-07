@@ -16,11 +16,11 @@ def get_google_auth(state=None, token=None):
 	oauth = OAuth2Session(Auth.CLIENT_ID, redirect_uri=Auth.REDIRECT_URI, scope=Auth.SCOPE)
 	return oauth
 
-@api.route('/login', methods=['POST'])
+@api.route('/google_login', methods=['POST'])
 def login():
 
 	timezone = request.form.get('timezone')
-	session['timezone'] = str(timezone)
+	session['timezone'] = int(timezone)
 
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
@@ -35,7 +35,7 @@ def login():
 def logout():
 	logout_user()
 	session.clear()
-	return redirect(url_for('main.landing'))
+	return redirect(url_for('auth.login'))
 
 @api.route('/gCallback')
 def callback():
@@ -79,14 +79,12 @@ def callback():
 
 			if session['timezone'] is not None:
 				# update the user timezone
-				user.timezoneoffset = int(session['timezone'])
-
-			print(session['timezone'])
-			sys.stdout.flush()
+				user.timezoneoffset = session['timezone']
 				
 			user.username = user_data['family_name']
 			user.tokens = json.dumps(token)
-			user.avatar = user_data['picture'] 
+			user.avatar = user_data['picture']
+			user.confirmed = True 
 
 			db.session.add(user)
 			db.session.commit()

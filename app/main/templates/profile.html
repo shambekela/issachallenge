@@ -16,7 +16,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-auto">
-							<p>	<img src="{{ current_user.avatar }}" alt="User Avatar" class="useravatar"></p>
+							<p>	<img {% if current_user.avatar is not none %} src="{{ current_user.avatar }}" 
+					        {% else %} src="{{ url_for('main.static', filename='assets/avatar.png') }}" {% endif %} alt="User Avatar" class="useravatar"></p>
 						</div>
 						<div class="col-auto mt-4">
 							<p>Joined {{ moment(current_user.dateJoined).fromNow() }}</p>

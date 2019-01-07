@@ -178,7 +178,7 @@ def send_email(user):
 
 	# email credentials
 	sparkpostkey = current_app.config['SPARKPOST_KEY']
-	sparkpostemail = current_app.config['SPARKPOST_EMAIL']
+	sparkpostemail = current_app.config['SPARKPOST_NOTIFICATION_EMAIL']
 
 	sp = SparkPost(sparkpostkey)
 	response = sp.transmissions.send(

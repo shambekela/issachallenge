@@ -1,6 +1,10 @@
-from . import db, login_manager, scheduler
+from app import db, login_manager, scheduler
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
+
 
 # tables stores user account data and related info.
 class User(UserMixin, db.Model):
@@ -17,11 +21,56 @@ class User(UserMixin, db.Model):
 	tracker = db.relationship('Tracker', backref='user_tracker', cascade="all, delete", lazy=False)
 	get_started = db.Column(db.Boolean, default=False)
 	timezoneoffset = db.Column(db.Numeric(12,2), default=0)
+	password_hash = db.Column(db.String(255), nullable=True)
+	confirmed = db.Column(db.Boolean, default=False)    
 
 	# set getstarted modal seen
 	def set_getStarted(self, seen):
 		self.get_started = seen
 
+	def set_password(self, password):
+		self.password_hash = generate_password_hash(password)
+
+	def check_password(self, password):
+		return check_password_hash(self.password_hash, password)
+
+	def generate_confirmation_token(self, expiration=3600):
+		s = Serializer(current_app.config['SECRET_KEY'], expiration)
+		return s.dumps({'confirm': self.uuid}).decode('utf-8')
+
+	def confirm(self, token):
+		s = Serializer(current_app.config['SECRET_KEY'])
+		try:
+			data = s.loads(token.encode('utf-8'))
+		except Exception as e:
+			return False
+
+		if data.get('confirm') != self.uuid:
+			return False
+
+		self.confirmed = True
+		db.session.add(self)
+		return True
+
+	def generate_reset_token(self, expiration=3600):
+		s = Serializer(current_app.config['SECRET_KEY'], expiration)
+		return s.dumps({'reset': self.uuid}).decode('utf-8')
+
+	@staticmethod
+	def reset_password(token, new_password):
+		s = Serializer(current_app.config['SECRET_KEY'])
+		try:
+			data = s.loads(token.encode('utf-8'))
+		except:
+			return False
+		user = db.session.query(User).filter(User.uuid==data.get('reset')).first()
+		print(user)
+		if user is None:
+			return False
+		user.set_password(new_password)
+		db.session.add(user)
+		db.session.commit()
+		return True
 
 	# get completed activities per user
 	def challenge_completed(self):

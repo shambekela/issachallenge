@@ -1,0 +1,13 @@
+<p style="font-size: 15px; font-weight: bold;" >Hello {{ user.username | title }},</p>
+<p style="font-family: sans-serif; font-size: 13px;">
+	You forgot your password.
+</p>
+<p style="font-family: sans-serif; font-size: 13px;">
+	Please following the link below to set a new password for your account.
+</p>
+<br>
+<a class='activate_button' style="text-decoration: none; padding: 10px; background: steelblue; color: white;border-radius: 4px; font-size: 14px; font-weight: bold;" href="{{ url_for('auth.reset_password', token=token, _external=True) }}">Reset your password</a>
+<br>
+<br>
+<p style="font-family: sans-serif; font-size: 13px;">Alternatively copy and paste the following url into your web browser.</p>
+<p style="font-family: sans-serif; font-size: 13px;">{{ url_for('auth.reset_password', token=token, _external=True) }}</p>

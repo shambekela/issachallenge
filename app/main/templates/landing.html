@@ -11,8 +11,9 @@
 		      		<h4 class="font-weight-normal "><a href="{{ url_for('main.landing')}}" class="text-dark issa-header">Issa challenge</a></h4>
 		      </div>
 			  <div class="col text-right m-auto">	
-		      	<a class="p-2 text-dark mr-5 issa-header-bold" href="" data-toggle="modal" data-target="#accountModal">Login</a>
-		  	</div>
+		      	<a class="p-2 text-dark issa-header" href="{{ url_for('auth.login')}} ">Login</a>	
+		      	<a class="p-2 text-dark mr-5 issa-header" href="{{ url_for('auth.register')}}">Sign up</a>
+		  	  </div>
 		  </div>
 		</div>			  	  
     </div>
@@ -35,7 +36,7 @@
 							<hr class="m-4">
 							<p class="text-center issa-header small">“Do one thing every day that scares you.” — Eleanor Roosevelt</p>
 							<div class="text-center">
-								<a data-toggle="modal" data-target="#accountModal" class="btn btn-primary issa-header lets-button btn-lg delay-0.3s" href="#" role="button">Lets do this.</a>
+								<a href="{{ url_for('auth.register') }}" class="btn btn-primary issa-header lets-button btn-lg delay-0.3s" href="#" role="button">Lets do this.</a>
 							</div>
 					  	</div>
 					  </div>
@@ -93,33 +94,6 @@
 			</div>	
 		</div>
 	</div>
-
-	<!-- Modal -->
-	<div class="modal" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content" style="background-color: #e6e8ed!important;">
-	      <div class="modal-body">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <div class="text-center">
-	        	<p class="issa-header h4">Lets do this</p>	        	
-	        	<form action="{{ url_for('api.login') }}" method="POST" >
-	        		<input type="hidden" name="timezone" id="timezone">
-	        		<button type="submit" class="btn btn-outline-primary">
-			        	<img src="{{ url_for('main.static', filename='assets/google.svg') }}"> Continue with Google
-			        </button>
-	        	</form>
-	        </div>
-	      </div>
-	      <div class="modal-body text-center">
-	        <p><strong>a life without challenges is boring.</strong></p>
-	      </div>
-	    </div>
-	  </div>
-	</div>
 {% endblock main %}
 
 {% block footer %}
@@ -140,10 +114,5 @@
 				});
 			}, 5000)
 		});
-
-		(function(){
-			var offset = new Date().getTimezoneOffset();
-			$('#timezone').val(offset)
-		}())
 	</script>
 {% endblock scripts %}

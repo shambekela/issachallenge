@@ -1,0 +1,13 @@
+<p style="font-size: 15px; font-weight: bold;" >Hello {{ user.username | title }},</p>
+<p style="font-family: sans-serif; font-size: 13px;">
+	Thanks for signing up on Issa challenge.
+</p>
+<p style="font-family: sans-serif; font-size: 13px;">
+	Please confirm your email address to complete the sign up process.
+</p>
+<br>
+<a class='activate_button' style="text-decoration: none; padding: 10px; background: steelblue; color: white;border-radius: 4px; font-size: 14px; font-weight: bold;" href="{{ url_for('auth.confirm', token=token, _external=True) }}">Confirm your email</a>
+<br>
+<br>
+<p style="font-family: sans-serif; font-size: 13px;">Alternatively copy and paste the following url into your web browser.</p>
+<p style="font-family: sans-serif; font-size: 13px;">{{ url_for('auth.confirm', token=token, _external=True) }}</p>

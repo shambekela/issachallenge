@@ -13,7 +13,7 @@ moment = Moment()
 login_manager = LoginManager()
 scheduler = APScheduler()
 login_manager.session_protection = "strong"
-login_manager.login_view = 'main.landing'
+login_manager.login_view = 'auth.login'
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -45,10 +45,14 @@ def create_app(config_name):
 			scheduler.add_job(id=job_id, func=challenge_scheduler, trigger='interval',  hours=1, max_instances=3, misfire_grace_time=None)
 		print(scheduler.get_job(id=job_id))
 
+	from .error import error as error_blueprint
 	from .api import api as api_blueprint
+	from .auth import auth as auth_blueprint
 	from .main import main as main_blueprint
 
+	app.register_blueprint(error_blueprint)
 	app.register_blueprint(api_blueprint)
+	app.register_blueprint(auth_blueprint, url_prefix='/auth')
 	app.register_blueprint(main_blueprint)
 
 	return app #app instance

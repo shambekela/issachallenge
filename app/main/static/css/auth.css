@@ -1,0 +1,18 @@
+body main {
+	margin-top: 0px;
+}
+
+div.card {
+	background-color: #e6e8ed!important;
+	border: 0px;
+}
+
+p.auth-page-heading {
+	text-align: center;
+}
+
+.has-error .help-block {
+	font-size: 80%;
+    font-weight: bold;
+    color: crimson;
+}

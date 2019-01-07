@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ super() }} Confirm Account {% endblock title %}
+
+{% block head %}
+    {{ super() }}
+{% endblock head %}
+
+{% block header %}
+	<div class="container">
+		<div class="row ">
+			<div class="col-md-4 m-auto pt-3">
+				<div class="d-flex justify-content-center">
+		      		<img style="width: 35px; height: 100%;" src="{{ url_for('main.static', filename='assets/warrior.png') }}">
+			      	<h4 class="font-weight-normal pt-3"><a href="{{ url_for('main.landing')}}" class="text-dark issa-header-bold">Issa challenge</a></h4>
+		      	</div>
+			</div>
+		</div>			  	  
+    </div>
+{% endblock header %}
+
+{% block main %}
+	{{ super() }}
+	<div class="container">
+	    <div class="row justify-content-center mt-5"> 
+	    	<div class="col-md-6 text-center">
+	    		<div class="display-4">
+	    			<i class="far fa-envelope"></i>
+	    		</div>
+	    		<div class="mt-2">
+			    	{% with messages = get_flashed_messages(with_categories=true) %}
+					  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+					  {% if messages %}
+					    {% for category, message in messages %}
+					      <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+					      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					      <!-- <strong>Title</strong> --> {{ message }}
+					      </div>
+					    {% endfor %}
+					  {% endif %}
+					{% endwith %}
+			    </div>
+	        	<div class="">
+				  <h4 class="p-2 issa-header">Welcome to Issa challenge</h4>
+				  <p class="issa-header">One last thing before you can get started we'll need you to confirm you email address. We've sent an email to <b>{{ current_user.email }}</b> with a link to get you started!</p>
+				  <p class="p-2 text-center issa-header text-muted">Refresh this page once confirmed.</p> 
+				  <div class="text-center pb-5">
+				  	<a href="{{ url_for('auth.resend_confirmation')}}" class="btn btn-sm btn-link issa-header-bold">Resend email</a>
+				  </div>
+				</div>
+	        </div>
+	    </div>
+	</div>
+{% endblock main %}
+
+{% block footer %}
+   {{ super() }}
+{% endblock footer %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock scripts %}
