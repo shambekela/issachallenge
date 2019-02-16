@@ -13,15 +13,20 @@
 	 	<link rel="stylesheet" href="{{ url_for('main.static', filename='css/all.css') }}" crossorigin="anonymous">
 	 	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
 	 	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-	 	<!-- Global site tag (gtag.js) - Google Analytics -->
+	  	<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131799612-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
 
-		  gtag('config', 'UA-131799612-1');
-		</script>
+	 	<script type="text/javascript">
+	 		var host = window.location.hostname;
+			if(host != "localhost")
+			{
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', 'UA-131799612-1');
+			}
+	 	</script>
 
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<script>
