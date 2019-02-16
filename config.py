@@ -4,7 +4,7 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 class Auth:
-	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID') 
 	CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 	REDIRECT_URI = 'https://www.issachallenge.fun/gCallback'
 	AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
@@ -15,7 +15,7 @@ class Auth:
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'afafd6a5f65a6f5a65df6a5f6af65daf84df23sfa6d5fa'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgres://euhumsfiyvvakh:1267b859f6a8499f87f7bb2bd5e5cd22b4d9f090a1dc70dcce39b5a7f9c9419b@ec2-54-228-229-10.eu-west-1.compute.amazonaws.com:5432/d1mngqi2ppvuv9' #or 'mysql+pymysql://root@localhost/issa-challenge'
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY')
 	SPARKPOST_NOTIFICATION_EMAIL = os.environ.get('SPARKPOST_NOTIFICATION_EMAIL')
 	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_CONTACT_EMAIL')

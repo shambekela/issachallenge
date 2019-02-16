@@ -1,8 +1,8 @@
 from . import main
 from app import scheduler, db, moment
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
-from flask_login import current_user, login_required, logout_user
 from app.models import User, Challenge, Activity, ChallengeStatus, Quote, Tag
+from flask_login import current_user, login_required, logout_user
 from sparkpost import SparkPost
 import sys, time, uuid, datetime, json, random, os
 from app.main.utils import challenge_done, challenge_skip
