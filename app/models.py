@@ -107,7 +107,7 @@ class User(UserMixin, db.Model):
 			Activity.user_id == self.uuid, 
 			Activity.chal_status == 2, 
 			db.func.DATE(Activity.timestamp + timedelta(minutes=offset)) == today_date).order_by(db.desc(Activity.timestamp)).all()
-		print(activities)
+		
 		return activities
 
 # stores all challenges.

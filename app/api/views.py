@@ -35,7 +35,7 @@ def login():
 def logout():
 	logout_user()
 	session.clear()
-	return redirect(url_for('auth.login'))
+	return redirect(url_for('main.landing'))
 
 @api.route('/gCallback')
 def callback():
